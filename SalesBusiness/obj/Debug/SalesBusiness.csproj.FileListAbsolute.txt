@@ -1,0 +1,12 @@
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\SalesBusiness.dll.config
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\SalesBusiness.dll
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\SalesBusiness.pdb
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\EntityFramework.dll
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\EntityFramework.SqlServer.dll
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\EntityFramework.xml
+E:\MockProject\trainningNet\SalesBusiness\bin\Debug\EntityFramework.SqlServer.xml
+E:\MockProject\trainningNet\SalesBusiness\obj\Debug\SalesBusiness.csprojAssemblyReference.cache
+E:\MockProject\trainningNet\SalesBusiness\obj\Debug\SalesBusiness.csproj.CoreCompileInputs.cache
+E:\MockProject\trainningNet\SalesBusiness\obj\Debug\SalesBusiness.csproj.CopyComplete
+E:\MockProject\trainningNet\SalesBusiness\obj\Debug\SalesBusiness.dll
+E:\MockProject\trainningNet\SalesBusiness\obj\Debug\SalesBusiness.pdb
