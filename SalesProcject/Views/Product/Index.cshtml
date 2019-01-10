@@ -335,6 +335,9 @@
         });
         @*btnShowPopupAdd*@
         $("#btnAdd").click(function () {
+            $("#lblSuccess").hide();
+            $("#lblMessage").hide();
+            $("#lblError").hide();
             $("input[type=text]").val("");
             $("#drpCatalog").val("");
             $("#MyModal").modal();
@@ -354,6 +357,45 @@
                         $("#lblSuccess").text(data.msg);
                         $("#lblMessage").hide();
                         $("#lblError").hide();
+                        if (clickCatalog == 1) {
+                            hidePage();
+                            clickSortCatalog();
+                            pageInCatalog();
+                        }
+                        else if (clickName == 1) {
+                            hidePage();
+                            clickSortName();
+                            pageInName();
+                        }
+                        else if (clickAmount == 1) {
+                            hidePage();
+                            clickSortAmount();
+                            pageInAmount();
+                        }
+                        else if (clickUnit == 1) {
+                            hidePage();
+                            clickSortUnit();
+                            pageInUnit();
+                        }
+                        else if (clickPrice == 1) {
+                            hidePage();
+                            clickSortPrice();
+                            pageInPrice();
+                        }
+                        else if (clickPricebuy == 1) {
+                            hidePage();
+                            clickSortPricebuy();
+                            pageInPricebuy();
+                        }
+                        else if (clickDate == 1) {
+                            hidePage();
+                            clickSortDate();
+                            pageInDate();
+                        }
+                        else {
+                            hidePage();
+                            clickNoSort();
+                        }
                     }
                     else {
                         $("#lblMessage").show();
@@ -381,13 +423,52 @@
                 dataType: 'json',
                 data: $('#frm').serialize(),
                 success: function (data) {
-                    if (data.status) {
+                    if (data.status) {                        
                         $("#lblSuccess").show();
                         $("#lblSuccess").text(data.msg);
                         $("#lblMessage").hide();
                         $("#lblError").hide();
+                        if (clickCatalog == 1) {
+                            hidePage();
+                            clickSortCatalog();
+                            pageInCatalog();
+                        }
+                        else if (clickName == 1) {
+                            hidePage();
+                            clickSortName();
+                            pageInName();
+                        }
+                        else if (clickAmount == 1) {
+                            hidePage();
+                            clickSortAmount();
+                            pageInAmount();
+                        }
+                        else if (clickUnit == 1) {
+                            hidePage();
+                            clickSortUnit();
+                            pageInUnit();
+                        }
+                        else if (clickPrice == 1) {
+                            hidePage();
+                            clickSortPrice();
+                            pageInPrice();
+                        }
+                        else if (clickPricebuy == 1) {
+                            hidePage();
+                            clickSortPricebuy();
+                            pageInPricebuy();
+                        }
+                        else if (clickDate == 1) {
+                            hidePage();
+                            clickSortDate();
+                            pageInDate();
+                        }
+                        else {
+                            hidePage();
+                            clickNoSort();
+                        }
                     }
-                    else {
+                    else {                      
                         $("#lblMessage").show();
                         $("#lblMessage").text(data.msg);
                         $("#lblSuccess").hide();
@@ -409,13 +490,25 @@
         });
         @* btnCancel -popup add *@
         $("#btnBackPopup").click(function () {
-            var url = '@Url.Action("Index", "Product")';
-            location.href = url;
-            //$("#MyModal").modal("hide");
+            $("#lblSuccess").hide();
+            $("#lblMessage").hide();
+            $("#lblError").hide();
+            $("#lblSuccess").text("");
+            $("#lblMessage").text("");
+            $("#lblError").text("");
+            $("#MyModal").modal("hide");
+            @*var url = '@Url.Action("Index", "Product")';
+            location.href = url;*@
         });
         $(".close").click(function () {
             @*var url = '@Url.Action("Index", "Product")';
             location.href = url;*@
+            $("#lblSuccess").text("");
+            $("#lblMessage").text("");
+            $("#lblError").text("");
+            $("#lblSuccess").hide();
+            $("#lblMessage").hide();
+            $("#lblError").hide();
             $("#MyModal").modal("hide");
         });
         @*btn Clear form*@
@@ -434,6 +527,9 @@
             $("#MyModal").modal();
             $("#btnSave").show();
             $("#btnUpdate").hide();
+            $("#lblSuccess").hide();
+            $("#lblMessage").hide();
+            $("#lblError").hide();
         });
         var clickCatalog = 0;
         var clickName = 0;
@@ -442,6 +538,7 @@
         var clickPrice = 0;
         var clickPricebuy = 0;
         var clickDate = 0;
+        var clickSearch = 0;
         function SortValueCatalog() {
              clickName = 0;
              clickAmount = 0;
@@ -909,6 +1006,7 @@
         });
         }
         $("#SearchBtn").click(function () {
+            clickSearch = 1;
             var SearchBy = $("#SearchBy").val();
             var IdValue = $("#txtSearchID").val();
             var NameValue = $("#txtSearchName").val();
