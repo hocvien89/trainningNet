@@ -22,6 +22,7 @@ namespace SalesProcject.Controllers
         {
             return Show();
         }
+        #region Show
         [HttpPost]
         public ActionResult Show()
         {
@@ -38,7 +39,9 @@ namespace SalesProcject.Controllers
             model.ToTalPage = (totalRecord % NumberRecord == 0) ? totalRecord / NumberRecord : totalRecord / NumberRecord + 1;
             return View(model);
         }
+        #endregion
 
+        #region LoadListCatalog
         [HttpPost]
         private List<SelectListItem> LoadListCatalog()
         {
@@ -54,51 +57,9 @@ namespace SalesProcject.Controllers
             }
             return lst;
         }
-        [HttpPost]
-        /*Paging for Index*/
-        public ActionResult GetLstUser(int? page)
-        {
-            var model = data.GetLst(page, NumberRecord, out int totalRecord);
-            ViewBag.lstCbb = LoadListCatalog();
-            return Json(new
-            {
-                view = RenderRazorViewToString(ControllerContext, "LstView", model)
-            });
-        }
-        [HttpPost]
-        /*Paging for Sort Name*/
-        public ActionResult GetLstSortName(ProductVM model, int? page)
-        {
-            model.input.lstCbb = LoadListCatalog();
-            ViewBag.lstCbb = model.input.lstCbb;
-            var lst = data.GetPrdOderName(page, NumberRecord, out int totalRecord);
-            return Json(new
-            {
-                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
-            });
-        }
-        /*Paging for Sort Catalog*/
-        public ActionResult GetLstSortCatalog(ProductVM model, int? page)
-        {
-            model.input.lstCbb = LoadListCatalog();
-            ViewBag.lstCbb = model.input.lstCbb;
-            var lst = data.GetPrdOderCatalog(page, NumberRecord, out int totalRecord);
-            return Json(new
-            {
-                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
-            });
-        }
-        /*Paging for Sort Unit*/
-        public ActionResult GetLstSortUnit(ProductVM model, int? page)
-        {
-            model.input.lstCbb = LoadListCatalog();
-            ViewBag.lstCbb = model.input.lstCbb;
-            var lst = data.GetPrdOderUnit(page, NumberRecord, out int totalRecord);
-            return Json(new
-            {
-                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
-            });
-        }
+        #endregion
+
+        #region Action  No Sort
         [HttpPost]//Action  No Sort
         public ActionResult SearchNoSort(ProductVM model, int? page)
         {
@@ -111,6 +72,23 @@ namespace SalesProcject.Controllers
                 view = RenderRazorViewToString(ControllerContext, "LstView", search),
             });
         }
+        #endregion
+
+        #region Paging for Index || NoSort
+        [HttpPost]
+        /*Paging for Index || SortNo*/
+        public ActionResult GetLstUser(int? page)
+        {
+            var model = data.GetLst(page, NumberRecord, out int totalRecord);
+            ViewBag.lstCbb = LoadListCatalog();
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", model)
+            });
+        }
+        #endregion
+
+        #region Action Sort Name
         [HttpPost]//Action Sort Name
         public ActionResult SearchSortName(ProductVM model, int? page)
         {
@@ -123,6 +101,24 @@ namespace SalesProcject.Controllers
                 view = RenderRazorViewToString(ControllerContext, "LstView", search),
             });
         }
+        #endregion
+
+        #region Paging for Sort Name
+        [HttpPost]
+        /*Paging for Sort Name*/
+        public ActionResult GetLstSortName(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderName(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region Action Sort Catalog
         [HttpPost]//Action Sort Catalog
         public ActionResult SearchSortCatalog(ProductVM model, int? page)
         {
@@ -135,6 +131,23 @@ namespace SalesProcject.Controllers
                 view = RenderRazorViewToString(ControllerContext, "LstView", search),
             });
         }
+        #endregion
+
+        #region Paging for Sort Catalog
+        /*Paging for Sort Catalog*/
+        public ActionResult GetLstSortCatalog(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderCatalog(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region Action SortUnit
         [HttpPost]//Action Sort Unit
         public ActionResult SearchSortUnit(ProductVM model, int? page)
         {
@@ -147,6 +160,139 @@ namespace SalesProcject.Controllers
                 view = RenderRazorViewToString(ControllerContext, "LstView", search),
             });
         }
+        #endregion
+
+        #region Paging for Sort Unit
+        /*Paging for Sort Unit*/
+        public ActionResult GetLstSortUnit(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderUnit(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region Action SortAmount
+        [HttpPost]//Action Sort Amount
+        public ActionResult SearchSortAmount(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var search = data.GetPrdOderAmount(1, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                status = true,
+                view = RenderRazorViewToString(ControllerContext, "LstView", search),
+            });
+        }
+        #endregion
+
+        #region Paging for Sort Amount
+        /*Paging for Sort Unit*/
+        public ActionResult GetLstSortAmount(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderAmount(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region Action SortPrice
+        [HttpPost]//Action Sort Price
+        public ActionResult SearchSortPrice(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var search = data.GetPrdOderPrice(1, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                status = true,
+                view = RenderRazorViewToString(ControllerContext, "LstView", search),
+            });
+        }
+        #endregion  
+
+        #region Paging for Sort Price
+        /*Paging for Sort Unit*/
+        public ActionResult GetLstSortPrice(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderPrice(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region Action SortPricebuy
+        [HttpPost]//Action Sort Pricebuy
+        public ActionResult SearchSortPricebuy(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var search = data.GetPrdOderPricebuy(1, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                status = true,
+                view = RenderRazorViewToString(ControllerContext, "LstView", search),
+            });
+        }
+        #endregion
+
+        #region Paging for Sort Pricebuy
+        /*Paging for Sort Unit*/
+        public ActionResult GetLstSortPricebuy(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderPricebuy(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region Action SortDate
+        [HttpPost]//Action Sort Date
+        public ActionResult SearchSortDate(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var search = data.GetPrdOderDate(1, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                status = true,
+                view = RenderRazorViewToString(ControllerContext, "LstView", search),
+            });
+        }
+        #endregion
+
+        #region Paging for Sort Date
+        /*Paging for Sort Unit*/
+        public ActionResult GetLstSortDate(ProductVM model, int? page)
+        {
+            model.input.lstCbb = LoadListCatalog();
+            ViewBag.lstCbb = model.input.lstCbb;
+            var lst = data.GetPrdOderDate(page, NumberRecord, out int totalRecord);
+            return Json(new
+            {
+                view = RenderRazorViewToString(ControllerContext, "LstView", lst)
+            });
+        }
+        #endregion
+
+        #region CheckValidate
         private string ValidateCheck(product model)
         {
             if (model.catalog_id == null)
@@ -199,6 +345,9 @@ namespace SalesProcject.Controllers
             }
             return string.Empty;
         }
+        #endregion
+
+        #region ActionResult Add
         [HttpPost]
         public ActionResult Add(ProductVM model)
         {
@@ -238,7 +387,9 @@ namespace SalesProcject.Controllers
                 return Json(new { status = false, msg = msgValid });
             }
         }
+        #endregion
 
+        #region ActionResult Delete
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -253,6 +404,9 @@ namespace SalesProcject.Controllers
             else
                 return Json(new { err = false, msg = "Không thấy dữ liệu phù hợp điều kiện!" });
         }
+        #endregion
+
+        #region ActionResult Update
         [HttpPost]
         public ActionResult Update(ProductVM model)
         {
@@ -296,7 +450,9 @@ namespace SalesProcject.Controllers
                 return Json(new { status = false, msg = msgValid });
             }
         }
-        /*Search*/
+        #endregion
+
+        #region Action Search
         public JsonResult GetSearchingData(string SearchBy, string IdValue, string CatalogValue, string NameValue,
                                            string AmountValue, string UnitValue, string MinPricebuyValue, string MaxPricebuyValue,
                                            string MinPriceValue, string MaxPriceValue)
@@ -838,7 +994,7 @@ namespace SalesProcject.Controllers
                                       select u).ToList();
                     }
                 }
-                    return Json(LstProduct, JsonRequestBehavior.AllowGet);
+                return Json(LstProduct, JsonRequestBehavior.AllowGet);
 
             }
 
@@ -1370,7 +1526,7 @@ namespace SalesProcject.Controllers
                                       select u).ToList();
                     }
                 }
-                    return Json(LstProduct, JsonRequestBehavior.AllowGet);
+                return Json(LstProduct, JsonRequestBehavior.AllowGet);
             }
             else if (SearchBy == "moreEqual")
             {
@@ -1379,7 +1535,7 @@ namespace SalesProcject.Controllers
                     && MinPriceValue.Equals("") && MaxPriceValue.Equals(""))
                 {
                     LstProduct = (from u in _db.products
-                                  where  u.del_flg == false
+                                  where u.del_flg == false
                                   select u).ToList();
                 }
                 else
@@ -1900,7 +2056,7 @@ namespace SalesProcject.Controllers
                                       select u).ToList();
                     }
                 }
-                    return Json(LstProduct, JsonRequestBehavior.AllowGet);             
+                return Json(LstProduct, JsonRequestBehavior.AllowGet);
             }
             else if (SearchBy == "less")
             {
@@ -2981,5 +3137,6 @@ namespace SalesProcject.Controllers
                 return Json(LstProduct, JsonRequestBehavior.AllowGet);
             }
         }
+        #endregion
     }
 }

@@ -7,7 +7,7 @@
     @*row titleform*@
     <div class="row">
         <h4>Quản lý thông tin sản phẩm</h4>
-    </div> 
+    </div>
     @*row 1 - id*@
     <div class="row">
         <div class="col-md-6">
@@ -127,7 +127,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <a  class="close" >&times;</a>
+                    <a class="close">&times;</a>
                     <h4 id="ModalTitle">Thông tin sản phẩm</h4>
                 </div>
                 <div class="modal-body">
@@ -234,25 +234,28 @@
             </div>
         </div>
     </div>
-    <label id="DelID" style="display:none"></label>
+
 }
-    <div class="modal fade" id="DeleteConfirmation">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h4>Delete Product Record</h4>
-                </div>
-                <div class="modal-body">
-                    <h5 id="lblmsg"></h5>
-                </div>
-                <div class="modal-footer">
-                    <input value="No" type="button" data-dismiss="modal" id="r" />
-                    <input value="Yes" class="clickDelete" type="button" />
-                </div>
+
+@*Popup Delete*@
+<div class="modal fade" id="DeleteConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4>Delete Product Record</h4>
+            </div>
+            <div class="modal-body">
+                <h5 id="lblmsg"></h5>
+            </div>
+            <div class="modal-footer">
+                <input value="No" type="button" data-dismiss="modal" id="r" />
+                <input value="Yes" class="clickDelete" type="button" />
             </div>
         </div>
     </div>
+</div>
+
 @*row table*@
 <div class="row" style="margin-top:5px" id="dataview">
     <div class="table-responsive">
@@ -282,14 +285,19 @@
         </table>
     </div>
 </div>
-<ul id="pagination-demo" class="pagination-sm"></ul>
+
 @*row paging*@
 <div class="row">
     <div class="col-lg-12">
-
+        <ul id="pagination-demo" class="pagination-sm"></ul>
         <ul id="pagination-sortname" class="pagination-sm" style="display:none"></ul>
         <ul id="pagination-sortcatalog" class="pagination-sm" style="display:none"></ul>
         <ul id="pagination-sortunit" class="pagination-sm" style="display:none"></ul>
+        <ul id="pagination-sortamount" class="pagination-sm" style="display:none"></ul>
+        <ul id="pagination-sortprice" class="pagination-sm" style="display:none"></ul>
+        <ul id="pagination-sortpricebuy" class="pagination-sm" style="display:none"></ul>
+        <ul id="pagination-sortdate" class="pagination-sm" style="display:none"></ul>
+
     </div>
 </div>
 
@@ -300,7 +308,6 @@
         $("#lblSuccess").text("");
         $("#lblMessage").text("");
         $("#lblError").text("");
-        $("#lstBodySearch").hide();
          @* paging *@
         $('#pagination-demo').twbsPagination({
             totalPages: @Model.ToTalPage,
@@ -364,7 +371,7 @@
                 }
             });
             }
-            
+
         });
          @*btn Update*@
         $("#btnUpdate").click(function () {
@@ -389,7 +396,7 @@
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     $("#lblError").show();
-                    $("#lblError").text("Có lỗi trong quá trình xử lý, hãy kiểm tra lại!");          
+                    $("#lblError").text("Có lỗi trong quá trình xử lý, hãy kiểm tra lại!");
                     $("#lblSuccess").hide();
                     $("#lblMessage").hide();
                 }
@@ -428,19 +435,81 @@
             $("#btnSave").show();
             $("#btnUpdate").hide();
         });
-        
-         @* btnSortByCatalog *@
-
-        var click = 0;
-        $("#SortByCatalog").click(function () {
-            click++;
-            click1 = 0;
-            click2 = 0;
-            if (click % 2 != 0) {
-                $("#pagination-demo").hide();
-                $("#pagination-sortname").hide();
-                $("#pagination-sortunit").hide();
-                $("#pagination-sortcatalog").show();
+        var clickCatalog = 0;
+        var clickName = 0;
+        var clickAmount = 0;
+        var clickUnit = 0;
+        var clickPrice = 0;
+        var clickPricebuy = 0;
+        var clickDate = 0;
+        function SortValueCatalog() {
+             clickName = 0;
+             clickAmount = 0;
+             clickUnit = 0;
+             clickPrice = 0;
+             clickPricebuy = 0;
+             clickDate = 0;
+        }
+        function SortValueName() {
+            clickCatalog = 0;
+            clickAmount = 0;
+            clickUnit = 0;
+            clickPrice = 0;
+            clickPricebuy = 0;
+            clickDate = 0;
+        }
+        function SortValueAmount() {
+            clickName = 0;
+            clickCatalog = 0;
+            clickUnit = 0;
+            clickPrice = 0;
+            clickPricebuy = 0;
+            clickDate = 0;
+        }
+        function SortValueUnit() {
+            clickName = 0;
+            clickCatalog = 0;
+            clickAmount = 0;
+            clickPrice = 0;
+            clickPricebuy = 0;
+            clickDate = 0;
+        }
+        function SortValuePrice() {
+            clickName = 0;
+            clickCatalog = 0;
+            clickUnit = 0;
+            clickAmount = 0;
+            clickPricebuy = 0;
+            clickDate = 0;
+        }
+        function SortValuePricebuy() {
+            clickName = 0;
+            clickCatalog = 0;
+            clickUnit = 0;
+            clickPrice = 0;
+            clickAmount = 0;
+            clickDate = 0;
+        }
+        function SortValueDate() {
+            clickName = 0;
+            clickCatalog = 0;
+            clickUnit = 0;
+            clickPrice = 0;
+            clickPricebuy = 0;
+            clickAmount = 0;
+        }
+        function hidePage() {
+            $("#pagination-demo").hide();
+            $("#pagination-sortcatalog").hide();
+            $("#pagination-sortname").hide();
+            $("#pagination-sortunit").hide();
+            $("#pagination-sortamount").hide();
+            $("#pagination-sortprice").hide();
+            $("#pagination-sortpricebuy").hide();
+            $("#pagination-sortdate").hide();
+        }
+        function clickSortCatalog() {
+            $("#pagination-sortcatalog").show();
                 $.ajax({
                     url: '@Url.Action("SearchSortCatalog", "Product")',
                     type: 'POST',
@@ -450,62 +519,9 @@
                         $('#lstBody').html(data.view);
                     }
                 });
-
-                $('#pagination-sortcatalog').twbsPagination({
-                    totalPages: @Model.ToTalPage,
-                    startPage: 1,
-                    visiblePages: 5,
-                    next: 'Next',
-                    prev: 'Prev',
-                    onPageClick: function (event, page) {
-                        var pr = {
-                            'page': page
-                        };
-                        $.ajax({
-                            url: '@Url.Action("GetLstSortCatalog", "Product")',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: $('#frm').serialize() + '&' + $.param(pr),
-                            success: function (data) {
-                                $('#lstBody').html(data.view);
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                alert(textStatus);
-                            }
-                        });
-                    }
-                });
-            }
-
-            if (click % 2 == 0) {
-                click = 0;
-                $("#pagination-demo").show();
-                $("#pagination-sortname").hide();
-                $("#pagination-sortunit").hide();
-                $("#pagination-sortcatalog").hide();
-                $.ajax({
-                    url: '@Url.Action("SearchNoSort", "Product")',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: $('#frm').serialize(),
-                    success: function (data) {
-                        $('#lstBody').html(data.view);
-                    }
-                });        
-            }        
-        });
-
-         @* btnSortByName *@
-        var click1 = 0;
-        $("#SortByName").click(function () {
-            click1++;
-            click = 0;
-            click2 = 0;
-            if (click1 % 2 != 0) {
-                $("#pagination-demo").hide();
-                $("#pagination-sortname").show();
-                $("#pagination-sortunit").hide();
-                $("#pagination-sortcatalog").hide();
+        }
+        function clickSortName() {
+            $("#pagination-sortname").show();
                 $.ajax({
                     url: '@Url.Action("SearchSortName", "Product")',
                     type: 'POST',
@@ -515,59 +531,21 @@
                         $('#lstBody').html(data.view);
                     }
                 });
-                $('#pagination-sortname').twbsPagination({
-                    totalPages: @Model.ToTalPage,
-                    startPage: 1,
-                    visiblePages: 5,
-                    next: 'Next',
-                    prev: 'Prev',
-                    onPageClick: function (event, page) {
-                        var pr = {
-                            'page': page
-                        };
-                        $.ajax({
-                            url: '@Url.Action("GetLstSortName", "Product")',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: $('#frm').serialize() + '&' + $.param(pr),
-                            success: function (data) {
-                                $('#lstBody').html(data.view);
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                alert(textStatus);
-                            }
-                        });
-                    }
-                });
-            }
-            if (click1 % 2 == 0) {
-                click1 = 0;
-                $("#pagination-demo").show();
-                $("#pagination-sortname").hide();
-                $("#pagination-sortunit").hide();
-                $("#pagination-sortcatalog").hide();
+        }
+        function clickSortAmount() {
+            $("#pagination-sortamount").show();
                 $.ajax({
-                    url: '@Url.Action("SearchNoSort", "Product")',
+                    url: '@Url.Action("SearchSortAmount", "Product")',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#frm').serialize(),
                     success: function (data) {
                         $('#lstBody').html(data.view);
                     }
-                });        
-            }
-        });
-         @* btnSortByUnit*@
-        var click2 = 0;
-        $("#SortByUnit").click(function () {
-            click2++;
-            click = 0;
-            click1 = 0;
-            if (click2 % 2 != 0) {
-                $("#pagination-demo").hide();
-                $("#pagination-sortname").hide();
-                $("#pagination-sortcatalog").hide();
-                $("#pagination-sortunit").show();
+                });
+        }
+        function clickSortUnit() {
+            $("#pagination-sortunit").show();
                 $.ajax({
                     url: '@Url.Action("SearchSortUnit", "Product")',
                     type: 'POST',
@@ -577,38 +555,46 @@
                         $('#lstBody').html(data.view);
                     }
                 });
-                $('#pagination-sortunit').twbsPagination({
-                    totalPages: @Model.ToTalPage,
-                    startPage: 1,
-                    visiblePages: 5,
-                    next: 'Next',
-                    prev: 'Prev',
-                    onPageClick: function (event, page) {
-                        var pr = {
-                            'page': page
-                        };
-                        $.ajax({
-                            url: '@Url.Action("GetLstSortUnit", "Product")',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: $('#frm').serialize() + '&' + $.param(pr),
-                            success: function (data) {
-                                $('#lstBody').html(data.view);
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                alert(textStatus);
-                            }
-                        });
+        }
+        function clickSortPrice() {
+            $("#pagination-sortprice").show();
+                $.ajax({
+                    url: '@Url.Action("SearchSortPrice", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
                     }
                 });
-            }
-            if (click2 % 2 == 0) {
-                click2 = 0;
-                $("#pagination-demo").show();
-                $("#pagination-sortname").hide();
-                $("#pagination-sortunit").hide();
-                $("#pagination-sortcatalog").hide();
+        }
+        function clickSortPricebuy() {
+            $("#pagination-sortpricebuy").show();
                 $.ajax({
+                    url: '@Url.Action("SearchSortPricebuy", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });
+        }
+        function clickSortDate() {
+            $("#pagination-sortdate").show();
+                $.ajax({
+                    url: '@Url.Action("SearchSortDate", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });
+        }
+        function clickNoSort() {
+            $("#pagination-demo").show();
+            $.ajax({
                     url: '@Url.Action("SearchNoSort", "Product")',
                     type: 'POST',
                     dataType: 'json',
@@ -616,10 +602,312 @@
                     success: function (data) {
                         $('#lstBody').html(data.view);
                     }
-                });        
+            });
+        }
+        function pageInCatalog() {
+            $('#pagination-sortcatalog').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortCatalog", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+        function pageInName() {
+            $('#pagination-sortname').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortName", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+        function pageInAmount() {
+            $('#pagination-sortamount').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortAmount", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+        function pageInUnit() {
+            $('#pagination-sortunit').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortUnit", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+        function pageInPrice() {
+            $('#pagination-sortprice').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortPrice", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+        function pageInPricebuy(){
+            $('#pagination-sortpricebuy').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortPricebuy", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+        function pageInDate() {
+            $('#pagination-sortdate').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: 1,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+            var pr = {
+                'page': page
+            };
+            $.ajax({
+            url: '@Url.Action("GetLstSortDate", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: $('#frm').serialize() + '&' + $.param(pr),
+            success: function (data) {
+                   $('#lstBody').html(data.view);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                  alert(textStatus);
+            }
+            });
+            }
+            });
+        }
+         @* btnSortByCatalog *@
+        $("#SortByCatalog").click(function () {
+            SortValueCatalog();
+            clickCatalog++;
+            if (clickCatalog % 2 != 0) {
+                hidePage();
+                clickSortCatalog();
+                pageInCatalog();
+            }
+            if (clickCatalog % 2 == 0) {
+                clickCatalog = 0;
+                hidePage();
+                clickNoSort();
             }
         });
-        
+         @* btnSortByName *@
+        $("#SortByName").click(function () {
+            SortValueName();
+            clickName++;
+            if (clickName % 2 != 0) {
+                hidePage();
+                clickSortName();
+                pageInName();
+            }
+            if (clickName % 2 == 0) {
+                clickName = 0;
+                hidePage();
+                clickNoSort();
+            }
+        });
+         @* btnSortByUnit*@
+        $("#SortByUnit").click(function () {
+            SortValueUnit();
+            clickUnit++;
+            if (clickUnit % 2 != 0) {
+                hidePage();
+                clickSortUnit();
+                pageInUnit();
+            }
+            if (clickUnit % 2 == 0) {
+                clickUnit = 0;
+                hidePage();
+                clickNoSort();
+            }
+        });
+        @* btnSortByAmount*@
+        $("#SortByAmount").click(function () {
+            SortValueAmount();
+            clickAmount++;
+            if (clickAmount % 2 != 0) {
+                hidePage();
+                clickSortAmount();
+                pageInAmount();
+            }
+            if (clickAmount % 2 == 0) {
+                clickAmount = 0;
+                hidePage();
+                clickNoSort();
+            }
+        });
+        @* btnSortByPrice*@
+        $("#SortByPrice").click(function () {
+            SortValuePrice();
+            clickPrice++;
+            if (clickPrice % 2 != 0) {
+                hidePage();
+                clickSortPrice();
+                pageInPrice();
+            }
+            if (clickPrice % 2 == 0) {
+                clickPrice = 0;
+                hidePage();
+                clickNoSort();
+            }
+        });
+        @* btnSortByPricebuy*@
+        $("#SortByPricebuy").click(function () {
+            SortValuePricebuy
+            clickPricebuy++;
+            if (clickPricebuy % 2 != 0) {
+                hidePage();
+                clickSortPricebuy();
+                pageInPricebuy();
+            }
+            if (clickPricebuy % 2 == 0) {
+                clickPricebuy = 0;
+                hidePage();
+                clickNoSort();
+            }
+        });
+        @* btnSortByDate*@
+        $("#SortByDate").click(function () {
+            SortValueDate();
+            clickDate++;
+            if (clickDate % 2 != 0) {
+                hidePage();
+                clickSortDate();
+                pageInDate();
+            }
+            if (clickDate % 2 == 0) {
+                clickDate = 0;
+                hidePage();
+                clickNoSort();
+            }
+        });
+        function ActionDetele() {
+        $.ajax({
+        url: '@Url.Action("Delete", "Product")',
+        type: 'POST',
+         dataType: 'json',
+        data: { id: IDC },
+        success: function (data) {
+            alert('Xóa thành công !');
+            $("#DeleteConfirmation").modal("hide");
+            var url = '@Url.Action("Index", "Product")';
+            location.href = url;
+        },
+        error: function (xhr, textStatus, errorThrown) {
+              alert(textStatus);
+        }
+        });
+        }
         $("#SearchBtn").click(function () {
             var SearchBy = $("#SearchBy").val();
             var IdValue = $("#txtSearchID").val();
@@ -664,7 +952,7 @@
                                 "</tr>";
                             SetData.append(entities);
                             SetData.css("color", "black");
-                            SetData.css("font-size", "14px");                            
+                            SetData.css("font-size", "14px");
                         });
                         $('.clickUpdate').click(function () {
                             $("#MyModal").modal();
@@ -691,27 +979,12 @@
                             $("#lblmsg").text("Bạn muốn xóa sản phẩm với mã sản phẩm là " + IDC + " không?");
                             $("#DeleteConfirmation").modal("show");
                             $(".clickDelete").click(function (evt) {
-                            $.ajax({
-                            url: '@Url.Action("Delete", "Product")',
-                            type: 'POST',
-                            dataType: 'json',
-                            data: { id: IDC },
-                            success: function (data) {
-                                alert('Xóa thành công !');
-                                $("#DeleteConfirmation").modal("hide");
-                                    var url = '@Url.Action("Index", "Product")';
-                                    location.href = url;                   
-                            },
-                            error: function (xhr, textStatus, errorThrown) {
-                                alert(textStatus);
-                            }
-                            });
-                        });    
+                                ActionDetele();
+                        });
                         });
                     }
                 }
             });
         });
-        
     });
 </script>

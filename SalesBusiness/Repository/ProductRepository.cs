@@ -139,6 +139,38 @@ namespace SalesBusiness.Repository
                      select u);
             totalRecord = a.Count();
             return a.ToList().Skip((page.GetValueOrDefault() - 1) * numberRecord).Take(numberRecord).ToList();
+        } public List<product> GetPrdOderAmount(int? page, int numberRecord, out int totalRecord)
+        {
+            var a = (from u in _db.products
+                     where u.del_flg.Equals(false)
+                     orderby u.amount
+                     select u);
+            totalRecord = a.Count();
+            return a.ToList().Skip((page.GetValueOrDefault() - 1) * numberRecord).Take(numberRecord).ToList();
+        } public List<product> GetPrdOderPrice(int? page, int numberRecord, out int totalRecord)
+        {
+            var a = (from u in _db.products
+                     where u.del_flg.Equals(false)
+                     orderby u.price
+                     select u);
+            totalRecord = a.Count();
+            return a.ToList().Skip((page.GetValueOrDefault() - 1) * numberRecord).Take(numberRecord).ToList();
+        } public List<product> GetPrdOderPricebuy(int? page, int numberRecord, out int totalRecord)
+        {
+            var a = (from u in _db.products
+                     where u.del_flg.Equals(false)
+                     orderby u.price_buy
+                     select u);
+            totalRecord = a.Count();
+            return a.ToList().Skip((page.GetValueOrDefault() - 1) * numberRecord).Take(numberRecord).ToList();
+        } public List<product> GetPrdOderDate(int? page, int numberRecord, out int totalRecord)
+        {
+            var a = (from u in _db.products
+                     where u.del_flg.Equals(false)
+                     orderby u.update_date
+                     select u);
+            totalRecord = a.Count();
+            return a.ToList().Skip((page.GetValueOrDefault() - 1) * numberRecord).Take(numberRecord).ToList();
         }
     }
 }

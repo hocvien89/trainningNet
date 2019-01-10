@@ -17,6 +17,10 @@ namespace SalesBusiness.IRepository
         List<product> GetPrdOderName(int? page, int numberRecord, out int totalRecord);
         List<product> GetPrdOderCatalog(int? page, int numberRecord, out int totalRecord);
         List<product> GetPrdOderUnit(int? page, int numberRecord, out int totalRecord);
+        List<product> GetPrdOderAmount(int? page, int numberRecord, out int totalRecord);
+        List<product> GetPrdOderPrice(int? page, int numberRecord, out int totalRecord);
+        List<product> GetPrdOderPricebuy(int? page, int numberRecord, out int totalRecord);
+        List<product> GetPrdOderDate(int? page, int numberRecord, out int totalRecord);
         product GetProduct(product model);
         product GetProductById(int id);
     }
