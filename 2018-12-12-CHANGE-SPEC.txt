@@ -1,0 +1,82 @@
+1. master page (THẮNG)
+ - bỏ menu cũ
+ - thêm menu dropdown vào master page
+	+ Quản lý nhân viên
+	+ Quản lý khách hàng
+	+ Quản lý mặt hàng
+		-> Loại mặt hàng
+		-> Mạt hàng
+	+ Quản lý bán hàng
+		-> Nhập hàng
+		-> Xuất hàng
+	+ Quản lý báo cáo
+		-> Báo cáo nhân viên
+			> Năm làm việc
+			> Doanh thu nhân viên
+		-> Báo cáo khách hàng
+			> Khách hàng theo tuổi
+		-> báo cáo bán hàng
+******************************************************* TRUNG ***************************************************************
+2. quản lý nhân viên
+ - git branch name: employee-manager
+ - thêm button [Search] bên cạnh button [Add]
+	+ khi click [Add] sẽ hiển thị form thêm dữ liệu dạng popup
+	+ title: "Thông tin nhân viên"
+ - button [Clear] thực hiện làm sạch dữ liệu form tìm kiếm
+ - message
+	+ requite: "Không được để trống."
+	+ duplicate: ..." đã tồn tại."
+	+ only length: "Bắt buộc ... ký tự."
+	+ min length: "Tối thiểu ... ký tự."
+	+ max length: "Tối đa ... ký tự."
+	+ only number: "Chỉ được nhập số."
+	+ đúng định dạng mail: "Không phải là địa chỉ mail."
+	-> màu đỏ, chữ nghiêng, cỡ chữ 11px
+ - popup thêm, sửa thông tin
+	+ button [Save]: thực hiện check validate, nội dung message hiển thị bên dưới textbox với 1 message duy nhất, trong trường hợp có nhiều message thì hiển thị message đầu tiên
+		-> Mã khách hàng: requite, duplicate, only length = 8
+		-> Tên đăng nhập: requite, duplicate, min length = 5, max length = 10
+		-> Mật khẩu: hiển thị dạng mật khẩu, requite, min length = 8, max length = 15
+		-> Tên khách hàng: requite
+		-> Điện thoại: only number, min length= 10, max length = 15
+		-> Email: đúng định dạng mail
+		-> Giới tính: đổi thành dạng combobox: Nam, Nữ, Không xác định (default)
+		* success: hiển thị message "Thêm mới nhân viên thành công!" màu xanh lá, chữ nghiêng, 12px ở giữa form nhập dữ liệu và button
+		* erro: hiển thị message "Có lỗi trong quá trình xử lý, hãy kiểm tra lại!" màu đỏ, chữ nghiêng, 12px ở giữa form nhập và dữ liệu
+	+ button [Clear] xóa toàn bộ dữ liệu để thực hiện thêm mới một nhận viên
+	+ button [Cancel] đóng popup, load lại dữ liệu trên danh sách. nếu đang có điều kiện tìm kiếm sẽ hiển thị dữ liệu theo điều kiện tìm kiếm
+ - chức năng thêm, sửa sử dụng popup
+	+ khi click button [Update] trên row sẽ hiển thị dữ liệu của row đó vào form
+	+ khi click button [Delete] trên row sẽ hiển thị confirm yes-no "Bạn muốn xóa nhân viên [tên nhân viên mã: ...] không?"
+		-> yes: update cờ del_flag thành true > hiển thị alert " xóa dữ liệu thành công!" > load lại dữ liệu theo điều kiện nếu có
+		-> no: đóng confirm và ko thực hiện gì
+ - thêm chức năng sắp xếp vào header các trường [Tên đăng nhập], [Tên], [Địa chỉ] table
+ - table 
+	+ loại bỏ cột ID và mật khẩu
+	+ chuyển User thành Tên đăng nhập
+ - ngày cập nhật fomat yyyy/dd/mm hh:mm
+ - khi tìm kiếm nếu ko có kết quả ko hiển thị bảng mà hiển thị message "không thấy dữ liệu phù hợp điều kiện!" vào vị trí của bảng
+
+******************************************************* SƠN ***************************************************************
+3. Quản lý khách hàng
+ - git branch name: customer-manager
+- thực hiện tương tự như quản lý nhân viên 
+- Update
+	+ Tên đăng nhâp: không requite
+	+ Mật khẩu: không requite
+	+ message: sửa "nhân viên" thành "khách hàng"
+	
+******************************************************* THẮNG ***************************************************************
+4. Quản lý mặt hàng
+ - git branch name: items-manager
+	a. Loại mặt hàng
+		- thực hiện tương tự như với quản lý nhân viên
+		- Update
+			+ Giá bán, Giá nhập hiển thị dạng money 90.000
+			+ Tên sản phẩm: requite, duplicate, max length = 50
+			+ thêm "Đơn vị tính" data field [unit] type varchar check requite
+			+ form tìm kiếm
+				-> Giá bán: sửa thành 2 textbox để nhập giá min-max
+				-> Giá nhập: sửa thành 2 textbox để nhập giá min-max
+				-> Số lượng: thêm combobox chọn các phép so sánh >, >=, = (default), <, <= trước textbox nhập số lượng 
+ 

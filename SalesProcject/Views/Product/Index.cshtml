@@ -1,0 +1,717 @@
+﻿@model SalesProcject.ViewModels.ProductVM
+@{
+    ViewBag.Title = "Index";
+}
+@using (Html.BeginForm("Index", "User", FormMethod.Post, new { id = "frm" }))
+{
+    @*row titleform*@
+    <div class="row">
+        <h4>Quản lý thông tin sản phẩm</h4>
+    </div> 
+    @*row 1 - id*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.id)
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.input.ids, new { @class = "form-textbox", @id = "txtSearchID" })
+            </div>
+        </div>
+    </div>
+
+    @*row 2 - catalog && Name*@
+    <div class="row">
+        @*loại sản phẩm*@
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.catalog_id)
+            </div>
+            <div class="col-md-8">
+                @*@Html.DropDownListFor(m => m.input.catalog_ids, Model.list, "-- Select catalog --", new { @class = "form-combobox" })*@
+                @Html.DropDownListFor(m => m.input.catalog_ids, Model.input.lstCbb, "-- Select catalog --", new { @class = "form-combobox", @id = "drpSearchCatalog" })
+            </div>
+        </div>
+        @*tên sản phẩm*@
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.name)
+            </div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.input.names, new { @class = "form-textbox", @id = "txtSearchName" })
+            </div>
+        </div>
+    </div>
+
+    @*row 3 - amount && unit*@
+    <div class="row">
+        @*số lượng*@
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.amount)
+            </div>
+            @*drpAmount*@
+            <div class="col-md-2">
+                <select id="SearchBy" class="form-combobox">
+                    <option value="equal">=</option>
+                    <option value="more">></option>
+                    <option value="moreEqual">>=</option>
+                    <option value="less"><</option>
+                    <option value="lessEqual"><=</option>
+                </select>
+            </div>
+            @*txtAmount*@
+            <div class="col-md-6">
+                @Html.TextBoxFor(m => m.input.amounts, new { @class = "form-textbox", @id = "txtSearchAmount" })
+            </div>
+        </div>
+        @*đơn vị*@
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.unit)
+            </div>
+            @*txtunit*@
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.input.units, new { @class = "form-textbox", @id = "txtSearchUnit" })
+            </div>
+        </div>
+    </div>
+
+    @*row 4-  pricebuy && price*@
+    <div class="row">
+        @*giá mua*@
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.price_buy)
+            </div>
+            @*txtPricebuyMin*@
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.input.price_buymin, new { @class = "form-textbox", @placeholder = "Min", @id = "txtMinPricebuy" })
+            </div>
+            @*txtPricebuyMax*@
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.input.price_buymax, new { @class = "form-textbox", @placeholder = "Max", @id = "txtMaxPricebuy" })
+            </div>
+        </div>
+        @*giá bán*@
+        <div class="col-md-6">
+            <div class="col-md-4 form_title">
+                @Html.DisplayNameFor(m => m.input.price)
+            </div>
+            @*txtPriceMin*@
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.input.pricemin, new { @class = "form-textbox", @placeholder = "Min", @id = "txtSearchMinPrice" })
+            </div>
+            @*txtPriceMax*@
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.input.pricemax, new { @class = "form-textbox", @placeholder = "Max", @id = "txtSearchMaxPrice" })
+            </div>
+        </div>
+    </div>
+
+    @*btn*@
+    <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+            <div class="col-md-6">
+                <input type="button" id="SearchBtn" value="Search" class="btn-info" />
+                <input type="button" id="btnAdd" value="Add" class="btn-info" />
+                <input type="button" id="btnClear" value="Clear" class="btn-info" />
+                <input type="button" id="btnBack" value="Back" class="btn-info" />
+            </div>
+        </div>
+    </div>
+
+    @*row popup-add-save*@
+    <div class="modal bottom" data-backdrop="static" id="MyModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a  class="close" >&times;</a>
+                    <h4 id="ModalTitle">Thông tin sản phẩm</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <div class="row">
+                            <i id="lblMessage" style="font:italic;font-size:11px; color:red;display:none"></i>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" style="display:none">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.id)
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.TextBoxFor(m => m.input.id, new { @class = "form-textbox", @readonly = "readonly", @id = "txtID" })
+                                </div>
+                                <div class="col-md-3">
+                                    @Html.HiddenFor(m => m.input.id, new { @class = "form-textbox" })
+                                </div>
+                            </div>
+                        </div>
+                        @*row 2*@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.catalog_id)
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(m => m.input.catalog_id, Model.input.lstCbb, "-- Select catalog --", new { @class = "form-combobox", @id = "drpCatalog" })
+                                    @*@Html.DropDownListFor(m => m.search.catalog_id, Model.list, "-- Select catalog --", new { @class = "form-combobox" })*@
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.name)
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.input.name, new { @class = "form-textbox", @id = "txtName" })
+                                </div>
+                            </div>
+                        </div>
+
+                        @*row 3*@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.amount)
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.input.amount, new { @class = "form-textbox", @id = "txtAmount" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.unit)
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.input.unit, new { @class = "form-textbox", @id = "txtUnit" })
+                                </div>
+                            </div>
+                        </div>
+
+                        @*row 4*@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.price_buy)
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.input.price_buy, new { @class = "form-textbox", @id = "txtPricebuy" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-4 form_title">
+                                    @Html.DisplayNameFor(m => m.input.price)
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(m => m.input.price, new { @class = "form-textbox", @id = "txtPrice" })
+                                </div>
+                            </div>
+                        </div>
+                        @*row 5 lblError*@
+                        <div class="row">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <i id="lblSuccess" style="font:italic;font-size:12px;color:forestgreen;display:none"></i>
+                                <i id="lblError" style="color:red;font:italic; font-size:12px;display:none"></i>
+                            </div>
+                            <div class="col-md-4"></div>
+                        </div>
+                        @*row btn*@
+                        <div class="row" style="padding-bottom:65px">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <div class="col-md-8">
+                                    <input type="button" id="btnSave" value="Save" class="btn-info" />
+                                    <input type="button" id="btnUpdate" value="Save" class="btn-info" style="display:none" />
+                                    <input type="button" id="btnClearPopup" value="Clear" class="btn-info" />
+                                    <input type="button" id="btnBackPopup" value="Cancel" class="btn-info" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <label id="DelID" style="display:none"></label>
+}
+    <div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4>Delete Product Record</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 id="lblmsg"></h5>
+                </div>
+                <div class="modal-footer">
+                    <input value="No" type="button" data-dismiss="modal" id="r" />
+                    <input value="Yes" class="clickDelete" type="button" />
+                </div>
+            </div>
+        </div>
+    </div>
+@*row table*@
+<div class="row" style="margin-top:5px" id="dataview">
+    <div class="table-responsive">
+        <table class="table" id="tb1">
+            @*Title Table*@
+            <thead>
+                <tr>
+                    @*<th>ID</th>*@
+                    <th><input id="SortByCatalog" type="button" class="btn-link" value="Loại sản phẩm" /></th>
+                    <th><input id="SortByName" type="button" class="btn-link" value="Tên sản phẩm" /></th>
+                    <th><input id="SortByAmount" type="button" class="btn-link" value="Số lượng" /></th>
+                    <th><input id="SortByUnit" type="button" class="btn-link" value="Đơn vị" /></th>
+                    <th><input id="SortByPricebuy" type="button" class="btn-link" value="Giá nhập" /></th>
+                    <th><input id="SortByPrice" type="button" class="btn-link" value="Giá bán" /></th>
+                    <th><input id="SortByDate" type="button" class="btn-link" value="Ngày cập nhật" /></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            @*View*@
+            <tr>
+                <td id="lblThongBao" style="color:red;display:none;font:oblique ;font-size:12px"></td>
+            </tr>
+            <tbody id="lstBody">
+                @Html.Partial("LstView", Model.Lst)
+            </tbody>
+        </table>
+    </div>
+</div>
+<ul id="pagination-demo" class="pagination-sm"></ul>
+@*row paging*@
+<div class="row">
+    <div class="col-lg-12">
+
+        <ul id="pagination-sortname" class="pagination-sm" style="display:none"></ul>
+        <ul id="pagination-sortcatalog" class="pagination-sm" style="display:none"></ul>
+        <ul id="pagination-sortunit" class="pagination-sm" style="display:none"></ul>
+    </div>
+</div>
+
+@*Script*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("input[type=text]").val("");
+        $("#lblSuccess").text("");
+        $("#lblMessage").text("");
+        $("#lblError").text("");
+        $("#lstBodySearch").hide();
+         @* paging *@
+        $('#pagination-demo').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: @Model.PageNumber,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+                var pr = {
+                    'page': page
+                };
+                $.ajax({
+                    url: '@Url.Action("GetLstUser", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize() + '&' + $.param(pr),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            }
+        });
+        @*btnShowPopupAdd*@
+        $("#btnAdd").click(function () {
+            $("input[type=text]").val("");
+            $("#drpCatalog").val("");
+            $("#MyModal").modal();
+            //$("#ModalTitle").html("Thêm mới sản phẩm");
+        });
+         @*btn Addnew*@
+        $("#btnSave").click(function () {
+            if (checkValidate() == true) {
+                $.ajax({
+                url: '@Url.Action("Add", "Product")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    if (data.status) {
+                        $("#lblSuccess").show();
+                        $("#lblSuccess").text(data.msg);
+                        $("#lblMessage").hide();
+                        $("#lblError").hide();
+                    }
+                    else {
+                        $("#lblMessage").show();
+                        $("#lblMessage").text(data.msg);
+                        $("#lblSuccess").hide();
+                        $("#lblError").hide();
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    $("#lblError").show();
+                    $("#lblError").text(textStatus);
+                    alert(textStatus);
+                    $("#lblSuccess").hide();
+                    $("#lblMessage").hide();
+                }
+            });
+            }
+            
+        });
+         @*btn Update*@
+        $("#btnUpdate").click(function () {
+            $.ajax({
+                url: '@Url.Action("Update", "Product")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    if (data.status) {
+                        $("#lblSuccess").show();
+                        $("#lblSuccess").text(data.msg);
+                        $("#lblMessage").hide();
+                        $("#lblError").hide();
+                    }
+                    else {
+                        $("#lblMessage").show();
+                        $("#lblMessage").text(data.msg);
+                        $("#lblSuccess").hide();
+                        $("#lblError").hide();
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    $("#lblError").show();
+                    $("#lblError").text("Có lỗi trong quá trình xử lý, hãy kiểm tra lại!");          
+                    $("#lblSuccess").hide();
+                    $("#lblMessage").hide();
+                }
+            });
+        });
+        @*btnBack form*@
+        $("#btnBack").click(function () {
+            var url = '@Url.Action("Index", "Product")';
+            location.href = url;
+        });
+        @* btnCancel -popup add *@
+        $("#btnBackPopup").click(function () {
+            var url = '@Url.Action("Index", "Product")';
+            location.href = url;
+            //$("#MyModal").modal("hide");
+        });
+        $(".close").click(function () {
+            @*var url = '@Url.Action("Index", "Product")';
+            location.href = url;*@
+            $("#MyModal").modal("hide");
+        });
+        @*btn Clear form*@
+        $("#btnClear").click(function () {
+            $("input[type=text]").val("");
+            $("#drpSearchCatalog").val("");
+            $("#SearchBy").val("equal");
+        });
+        @* btn Clear - popup *@
+        $("#btnClearPopup").click(function () {
+            $("input[type=text]").val("");
+            $("#drpCatalog").val("");
+            $("#lblSuccess").text("");
+            $("#lblMessage").text("");
+            $("#lblError").text("");
+            $("#MyModal").modal();
+            $("#btnSave").show();
+            $("#btnUpdate").hide();
+        });
+        
+         @* btnSortByCatalog *@
+
+        var click = 0;
+        $("#SortByCatalog").click(function () {
+            click++;
+            click1 = 0;
+            click2 = 0;
+            if (click % 2 != 0) {
+                $("#pagination-demo").hide();
+                $("#pagination-sortname").hide();
+                $("#pagination-sortunit").hide();
+                $("#pagination-sortcatalog").show();
+                $.ajax({
+                    url: '@Url.Action("SearchSortCatalog", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });
+
+                $('#pagination-sortcatalog').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("GetLstSortCatalog", "Product")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#lstBody').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (click % 2 == 0) {
+                click = 0;
+                $("#pagination-demo").show();
+                $("#pagination-sortname").hide();
+                $("#pagination-sortunit").hide();
+                $("#pagination-sortcatalog").hide();
+                $.ajax({
+                    url: '@Url.Action("SearchNoSort", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });        
+            }        
+        });
+
+         @* btnSortByName *@
+        var click1 = 0;
+        $("#SortByName").click(function () {
+            click1++;
+            click = 0;
+            click2 = 0;
+            if (click1 % 2 != 0) {
+                $("#pagination-demo").hide();
+                $("#pagination-sortname").show();
+                $("#pagination-sortunit").hide();
+                $("#pagination-sortcatalog").hide();
+                $.ajax({
+                    url: '@Url.Action("SearchSortName", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });
+                $('#pagination-sortname').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("GetLstSortName", "Product")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#lstBody').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+            if (click1 % 2 == 0) {
+                click1 = 0;
+                $("#pagination-demo").show();
+                $("#pagination-sortname").hide();
+                $("#pagination-sortunit").hide();
+                $("#pagination-sortcatalog").hide();
+                $.ajax({
+                    url: '@Url.Action("SearchNoSort", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });        
+            }
+        });
+         @* btnSortByUnit*@
+        var click2 = 0;
+        $("#SortByUnit").click(function () {
+            click2++;
+            click = 0;
+            click1 = 0;
+            if (click2 % 2 != 0) {
+                $("#pagination-demo").hide();
+                $("#pagination-sortname").hide();
+                $("#pagination-sortcatalog").hide();
+                $("#pagination-sortunit").show();
+                $.ajax({
+                    url: '@Url.Action("SearchSortUnit", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });
+                $('#pagination-sortunit').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("GetLstSortUnit", "Product")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#lstBody').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+            if (click2 % 2 == 0) {
+                click2 = 0;
+                $("#pagination-demo").show();
+                $("#pagination-sortname").hide();
+                $("#pagination-sortunit").hide();
+                $("#pagination-sortcatalog").hide();
+                $.ajax({
+                    url: '@Url.Action("SearchNoSort", "Product")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });        
+            }
+        });
+        
+        $("#SearchBtn").click(function () {
+            var SearchBy = $("#SearchBy").val();
+            var IdValue = $("#txtSearchID").val();
+            var NameValue = $("#txtSearchName").val();
+            var CatalogValue = $("#drpSearchCatalog").val();
+            var AmountValue = $("#txtSearchAmount").val();
+            var UnitValue = $("#txtSearchUnit").val();
+            var MinPricebuyValue = $("#txtMinPricebuy").val();
+            var MaxPricebuyValue = $("#txtMaxPricebuy").val();
+            var MinPriceValue = $("#txtSearchMinPrice").val();
+            var MaxPriceValue = $("#txtSearchMaxPrice").val();
+            var SetData = $("#lstBody");
+            SetData.html("");
+            $("#pagination-demo").hide();
+            $.ajax({
+                type: "GET",
+                url: "/Product/GetSearchingData?SearchBy=" + SearchBy + "&IdValue=" + IdValue +
+                    "&CatalogValue=" + CatalogValue + "&NameValue=" + NameValue + "&AmountValue=" + AmountValue +
+                    "&UnitValue=" + UnitValue + "&MinPricebuyValue=" + MinPricebuyValue + "&MaxPricebuyValue=" + MaxPricebuyValue +
+                    "&MinPriceValue=" + MinPriceValue + "&MaxPriceValue=" + MaxPriceValue,
+                datatype: "json",
+                data: $('#frm').serialize(),
+                success: function (result) {
+                    if (result.length == 0) {
+                        SetData.html("<i>Không thấy dữ liệu phù hợp điều kiện!</i>");
+                        SetData.css("color", "red");
+                        SetData.css("font-size", "11px");
+                    }
+                    else {
+                        $.each(result, function (index, value) {
+                            var entities = "<tr>" +
+                                //"<td>" + value.id + "</td>" +
+                                "<td style='display: block'>" + value.catalog_id + "</td>" +
+                                "<td>" + value.name + "</td>" +
+                                "<td>" + value.amount + "</td>" +
+                                "<td>" + value.unit + "</td>" +
+                                "<td>" + value.price_buy + "</td>" +
+                                "<td>" + value.price + "</td>" +
+                                "<td>" + value.update_date + "</td>" +
+                                "<td>" + "<p>" + "<input type='button' class='clickUpdate' value='Cập nhật'/>" + "</p>" + "</td>" +
+                                "<td>" + "<p>" + "<input type='button' class='clickDeleteS' value='Xóa'/>" + "</p>" + "</td>" +
+                                "</tr>";
+                            SetData.append(entities);
+                            SetData.css("color", "black");
+                            SetData.css("font-size", "14px");                            
+                        });
+                        $('.clickUpdate').click(function () {
+                            $("#MyModal").modal();
+                            $("#btnSave").hide();
+                            $("#btnUpdate").show();
+                            $(function () {
+                                $('#tb1 td p').click(function () {
+                                    $('#txtID').val($(this).closest('tr').find('td:first').text());
+                                    var cata = $(this).closest('tr').find('td:nth-child(2)').text();
+                                    $("#drpCatalog").val(cata);
+                                    $('#txtName').val($(this).closest('tr').find('td:nth-child(3)').text());
+                                    $('#txtAmount').val($(this).closest('tr').find('td:nth-child(4)').text());
+                                    $('#txtUnit').val($(this).closest('tr').find('td:nth-child(5)').text());
+                                    var pricebuy = $(this).closest('tr').find('td:nth-child(6)').text();
+                                    $('#txtPricebuy').val(parseInt(pricebuy));
+                                    $('#txtPrice').val($(this).closest('tr').find('td:nth-child(7)').text());
+                                    //$("input[id=input_sex]").prop('checked', true).change();
+                                    $('#id').prop('readonly', true);
+                                });
+                            });
+                        });
+                        $('.clickDeleteS').click(function () {
+                            var IDC = $(this).closest('tr').find('td:first').text();
+                            $("#lblmsg").text("Bạn muốn xóa sản phẩm với mã sản phẩm là " + IDC + " không?");
+                            $("#DeleteConfirmation").modal("show");
+                            $(".clickDelete").click(function (evt) {
+                            $.ajax({
+                            url: '@Url.Action("Delete", "Product")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: { id: IDC },
+                            success: function (data) {
+                                alert('Xóa thành công !');
+                                $("#DeleteConfirmation").modal("hide");
+                                    var url = '@Url.Action("Index", "Product")';
+                                    location.href = url;                   
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                            });
+                        });    
+                        });
+                    }
+                }
+            });
+        });
+        
+    });
+</script>

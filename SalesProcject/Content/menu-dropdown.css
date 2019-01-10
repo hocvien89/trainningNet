@@ -32,7 +32,7 @@ a:focus {
 .dropdown-menu {
     padding: 0px 0;
     margin: 0 0 0;
-    border: 0px solid transition !important;
+    /*border: 0px solid transition !important;*/
     border: 0px solid rgba(0,0,0,.15);
     border-radius: 0px;
     -webkit-box-shadow: none !important;
@@ -49,7 +49,7 @@ a:focus {
 
 .header_area .header_bottom .mainmenu a, .navbar-default .navbar-nav > li > a {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     /*text-transform: capitalize;*/
     padding: 16px 15px;
     font-family: Arial, sans-serif;
@@ -90,15 +90,15 @@ a:focus {
 }
 
 .mainmenu .collapse ul ul, .mainmenu .collapse ul ul.dropdown-menu {
-    background: blueviolet;
+    background: violet;
 }
 
     .mainmenu .collapse ul ul ul, .mainmenu .collapse ul ul ul.dropdown-menu {
-        background: blueviolet;
+        background: #B4045F;
     }
 
         .mainmenu .collapse ul ul ul ul, .mainmenu .collapse ul ul ul ul.dropdown-menu {
-            background: blueviolet;
+            background: violet;
         }
 
 /******************************Drop-down menu work on hover**********************************/

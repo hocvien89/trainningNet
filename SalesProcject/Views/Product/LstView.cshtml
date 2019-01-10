@@ -1,0 +1,109 @@
+﻿@model List<SalesBusiness.DataContext.product>
+@foreach (var item in Model)
+{
+    <tr>
+        <td style="display:none">@item.id</td>
+        <td style="display:none">@item.catalog_id</td>
+        <td>@((ViewBag.lstCbb as List<SelectListItem>).FirstOrDefault(x => x.Value == item.catalog_id.ToString()).Text)</td>
+        <td>@item.name</td>
+        <td>@item.amount</td>
+        <td>@item.unit</td>
+        <td>@item.price_buy</td>
+        @*<td>@String.Format(System.Globalization.CultureInfo.GetCultureInfo("vi-VN"), "{0:0,0 }", item.price)</td>*@
+        <td>@item.price</td>
+        <td>@item.update_date</td>
+        <td><p><input type="button" value="Cập nhật" class="update" tag="@item.id" /></p></td>
+        <td><p><input type="button" value="Xóa" class="delete" tag="@item.id" /></p></td>
+    </tr>
+
+}
+@*<div class="modal fade" id="DeleteConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4>Delete Product Record</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 id="lblmsg"></h5>
+                </div>
+                <div class="modal-footer">
+                    <input value="No" type="button" data-dismiss="modal" id="r"/>
+                    <input value="Yes" class="clickDelete" type="button"/>
+                </div>
+            </div>
+        </div>
+    </div>*@
+<script type="text/javascript">
+
+    @*$(".delete").click(function (evt) {      
+        if (confirm("Bạn muốn xóa sản phẩm với mã sản phẩm là " + $(this).attr("tag")  + " không?")) {
+        evt.stopPropagation();
+        $.ajax({
+            url: '@Url.Action("Delete", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: { id: $(this).attr("tag")},
+            success: function (data) {
+                if (data.err) {
+                    alert('Xóa thành công !');
+                    var url = '@Url.Action("Index", "Product")';
+                    location.href = url;                   
+                }
+                else
+                    alert(data.msg);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+            });
+        }
+    });*@
+    $(".delete").click(function (evt) {
+            $("#lblmsg").text("Bạn muốn xóa sản phẩm với mã sản phẩm là " + $(this).attr("tag") + " không?");
+            $("#DeleteConfirmation").modal("show");
+            var IDC = $(this).attr("tag");
+            $(".clickDelete").click(function (evt) {
+            $.ajax({
+            url: '@Url.Action("Delete", "Product")',
+            type: 'POST',
+            dataType: 'json',
+            data: { id: IDC },
+            success: function (data) {
+                alert('Xóa thành công !');
+                $("#DeleteConfirmation").modal("hide");
+                    var url = '@Url.Action("Index", "Product")';
+                    location.href = url;                   
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+            });
+        });    
+    });
+    
+    $(".update").click(function (evt) {  
+        $("#MyModal").modal();
+        //$("#ModalTitle").html("Cập nhật thông tin sản phẩm");
+        $("#btnSave").hide();
+        $("#btnUpdate").show();
+        $(function () {
+            $('#tb1 td p').click(function (e) {
+                e.preventDefault();
+                $('#txtID').val($(this).closest('tr').find('td:first').text());               
+                var cata = $(this).closest('tr').find('td:nth-child(2)').text();
+                $("#drpCatalog").val(cata);
+                $('#txtName').val($(this).closest('tr').find('td:nth-child(4)').text());
+                $('#txtAmount').val($(this).closest('tr').find('td:nth-child(5)').text());
+                $('#txtUnit').val($(this).closest('tr').find('td:nth-child(6)').text());
+                var pricebuy = $(this).closest('tr').find('td:nth-child(7)').text();
+                $('#txtPricebuy').val(parseInt(pricebuy));
+                $('#txtPrice').val($(this).closest('tr').find('td:nth-child(8)').text());
+                //$("input[id=input_sex]").prop('checked', true).change();
+                $('#id').prop('readonly', true);
+
+            });
+        });
+    });
+
+</script>

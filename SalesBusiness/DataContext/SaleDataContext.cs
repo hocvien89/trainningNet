@@ -5,10 +5,10 @@ namespace SalesBusiness.DataContext
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class SalesDataContext : DbContext
+    public partial class SaleDataContext : DbContext
     {
-        public SalesDataContext()
-            : base("name=SalesDataContext")
+        public SaleDataContext()
+            : base("name=SaleDataContext")
         {
         }
 
@@ -112,6 +112,10 @@ namespace SalesBusiness.DataContext
 
             modelBuilder.Entity<product>()
                 .Property(e => e.update_user)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<product>()
+                .Property(e => e.unit)
                 .IsUnicode(false);
 
             modelBuilder.Entity<staff>()
