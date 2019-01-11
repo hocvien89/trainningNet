@@ -123,7 +123,7 @@
     </div>
 
     @*row popup-add-save*@
-    <div class="modal bottom" data-backdrop="static" id="MyModal">
+    <div class="modal fade" data-backdrop="static" id="MyModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -333,6 +333,50 @@
                 });
             }
         });
+        function clearMsg() {
+            $("#lblSuccess").text("");
+            $("#lblMessage").text("");
+            $("#lblError").text("");
+            $("#lblSuccess").hide();
+            $("#lblMessage").hide();
+            $("#lblError").hide();
+        }
+        function clearInput() {
+            $("input[type=text]").val("");
+            $("#drpSearchCatalog").val("");
+            $("#SearchBy").val("equal");
+        }
+         @*btnBack form*@
+        $("#btnBack").click(function () {
+            var url = '@Url.Action("Index", "Product")';
+            location.href = url;
+        });
+        @* btnCancel -popup add *@
+        $("#btnBackPopup").click(function () {
+            clearMsg();
+            $("#MyModal").modal("hide");
+            @*var url = '@Url.Action("Index", "Product")';
+            location.href = url;*@
+        });
+        $(".close").click(function () {
+            @*var url = '@Url.Action("Index", "Product")';
+            location.href = url;*@
+            clearMsg();
+            $("#MyModal").modal("hide");
+        });
+        @*btn Clear form*@
+        $("#btnClear").click(function () {
+            clearInput();
+        });
+        @* btn Clear - popup *@
+        $("#btnClearPopup").click(function () {
+            $("input[type=text]").val("");
+            $("#drpCatalog").val("");
+            clearMsg();
+            $("#MyModal").modal();
+            $("#btnSave").show();
+            $("#btnUpdate").hide();
+        });
         @*btnShowPopupAdd*@
         $("#btnAdd").click(function () {
             $("#lblSuccess").hide();
@@ -483,54 +527,7 @@
                 }
             });
         });
-        @*btnBack form*@
-        $("#btnBack").click(function () {
-            var url = '@Url.Action("Index", "Product")';
-            location.href = url;
-        });
-        @* btnCancel -popup add *@
-        $("#btnBackPopup").click(function () {
-            $("#lblSuccess").hide();
-            $("#lblMessage").hide();
-            $("#lblError").hide();
-            $("#lblSuccess").text("");
-            $("#lblMessage").text("");
-            $("#lblError").text("");
-            $("#MyModal").modal("hide");
-            @*var url = '@Url.Action("Index", "Product")';
-            location.href = url;*@
-        });
-        $(".close").click(function () {
-            @*var url = '@Url.Action("Index", "Product")';
-            location.href = url;*@
-            $("#lblSuccess").text("");
-            $("#lblMessage").text("");
-            $("#lblError").text("");
-            $("#lblSuccess").hide();
-            $("#lblMessage").hide();
-            $("#lblError").hide();
-            $("#MyModal").modal("hide");
-        });
-        @*btn Clear form*@
-        $("#btnClear").click(function () {
-            $("input[type=text]").val("");
-            $("#drpSearchCatalog").val("");
-            $("#SearchBy").val("equal");
-        });
-        @* btn Clear - popup *@
-        $("#btnClearPopup").click(function () {
-            $("input[type=text]").val("");
-            $("#drpCatalog").val("");
-            $("#lblSuccess").text("");
-            $("#lblMessage").text("");
-            $("#lblError").text("");
-            $("#MyModal").modal();
-            $("#btnSave").show();
-            $("#btnUpdate").hide();
-            $("#lblSuccess").hide();
-            $("#lblMessage").hide();
-            $("#lblError").hide();
-        });
+       
         var clickCatalog = 0;
         var clickName = 0;
         var clickAmount = 0;
@@ -692,7 +689,7 @@
         function clickNoSort() {
             $("#pagination-demo").show();
             $.ajax({
-                    url: '@Url.Action("SearchNoSort", "Product")',
+                    url: '@Url.Action("GetLstUser", "Product")',
                     type: 'POST',
                     dataType: 'json',
                     data: $('#frm').serialize(),
@@ -1006,7 +1003,6 @@
         });
         }
         $("#SearchBtn").click(function () {
-            clickSearch = 1;
             var SearchBy = $("#SearchBy").val();
             var IdValue = $("#txtSearchID").val();
             var NameValue = $("#txtSearchName").val();
@@ -1019,7 +1015,7 @@
             var MaxPriceValue = $("#txtSearchMaxPrice").val();
             var SetData = $("#lstBody");
             SetData.html("");
-            $("#pagination-demo").hide();
+            hidePage();
             $.ajax({
                 type: "GET",
                 url: "/Product/GetSearchingData?SearchBy=" + SearchBy + "&IdValue=" + IdValue +

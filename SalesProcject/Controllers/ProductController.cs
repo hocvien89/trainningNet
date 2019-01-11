@@ -455,7 +455,7 @@ namespace SalesProcject.Controllers
         #region Action Search
         public JsonResult GetSearchingData(string SearchBy, string IdValue, string CatalogValue, string NameValue,
                                            string AmountValue, string UnitValue, string MinPricebuyValue, string MaxPricebuyValue,
-                                           string MinPriceValue, string MaxPriceValue)
+                                           string MinPriceValue, string MaxPriceValue )
         {
             List<product> LstProduct = new List<product>();
             int ID;
