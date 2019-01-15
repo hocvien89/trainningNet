@@ -37,5 +37,7 @@ namespace SalesBusiness.DataContext
 
         [StringLength(50)]
         public string unit { get; set; }
+
+        //public virtual catalog tblcatalog { get; set; }
     }
 }

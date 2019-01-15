@@ -3138,5 +3138,24 @@ namespace SalesProcject.Controllers
             }
         }
         #endregion
+
+        //public JsonResult GetPrdList()
+        //{
+        //    List<ProductModel> StuList = _db.products.Where(x => x.del_flg == false).Select(x => new ProductModel
+        //    {
+
+        //        id = x.id,
+        //        Cname = x.tblcatalog.name,
+        //        name = x.name,
+        //        amount = x.amount,
+        //        unit = x.unit,
+        //        price = x.price,
+        //        price_buy = x.price_buy,
+        //        del_flg = x.del_flg,
+        //        update_date = x.update_date
+        //    }).ToList();
+
+        //    return Json(StuList, JsonRequestBehavior.AllowGet);
+        //}
     }
 }

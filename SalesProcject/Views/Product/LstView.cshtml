@@ -34,9 +34,9 @@
             </div>
         </div>
     </div>*@
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    @*$(".delete").click(function (evt) {      
+    @*$(".delete").click(function (evt) {
         if (confirm("Bạn muốn xóa sản phẩm với mã sản phẩm là " + $(this).attr("tag")  + " không?")) {
         evt.stopPropagation();
         $.ajax({
@@ -48,7 +48,7 @@
                 if (data.err) {
                     alert('Xóa thành công !');
                     var url = '@Url.Action("Index", "Product")';
-                    location.href = url;                   
+                    location.href = url;
                 }
                 else
                     alert(data.msg);
@@ -62,8 +62,8 @@
     $(".delete").click(function (evt) {
             $("#lblmsg").text("Bạn muốn xóa sản phẩm với mã sản phẩm là " + $(this).attr("tag") + " không?");
             $("#DeleteConfirmation").modal("show");
-            var IDC = $(this).attr("tag");
-            $(".clickDelete").click(function (evt) {
+        var IDC = $(this).attr("tag");        
+        $(".clickDelete").click(function () {              
             $.ajax({
             url: '@Url.Action("Delete", "Product")',
             type: 'POST',
@@ -72,17 +72,26 @@
             success: function (data) {
                 alert('Xóa thành công !');
                 $("#DeleteConfirmation").modal("hide");
-                    var url = '@Url.Action("Index", "Product")';
-                    location.href = url;                   
+                var url = '@Url.Action("Index", "Product")';
+                location.href = url;
+                $.ajax({
+                    url: '@Url.Action("SearchNoSort", "Product")',
+                    data: $('#frm').serialize(),
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#lstBody').html(data.view);
+                    }
+                });
             },
             error: function (xhr, textStatus, errorThrown) {
                 alert(textStatus);
             }
             });
-        });    
+        });
     });
-    
-    $(".update").click(function (evt) {  
+
+    $(".update").click(function (evt) {
         $("#MyModal").modal();
         //$("#ModalTitle").html("Cập nhật thông tin sản phẩm");
         $("#btnSave").hide();
@@ -90,7 +99,7 @@
         $(function () {
             $('#tb1 td p').click(function (e) {
                 e.preventDefault();
-                $('#txtID').val($(this).closest('tr').find('td:first').text());               
+                $('#txtID').val($(this).closest('tr').find('td:first').text());
                 var cata = $(this).closest('tr').find('td:nth-child(2)').text();
                 $("#drpCatalog").val(cata);
                 $('#txtName').val($(this).closest('tr').find('td:nth-child(4)').text());
@@ -101,9 +110,8 @@
                 $('#txtPrice').val($(this).closest('tr').find('td:nth-child(8)').text());
                 //$("input[id=input_sex]").prop('checked', true).change();
                 $('#id').prop('readonly', true);
-
             });
         });
     });
 
-</script>
+    </script>

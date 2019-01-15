@@ -281,6 +281,10 @@
             </tr>
             <tbody id="lstBody">
                 @Html.Partial("LstView", Model.Lst)
+                @{ var totalPage = Model.ToTalPage;}
+            </tbody>
+            <tbody id="SetStudentList">
+                <tr id="LoadingStatus" style="color:red"></tr>
             </tbody>
         </table>
     </div>
@@ -308,6 +312,30 @@
         $("#lblSuccess").text("");
         $("#lblMessage").text("");
         $("#lblError").text("");
+        $("#SetStudentList").hide();
+        //ListView();
+        //function ListView() {
+        //    $("#LoadingStatus").html("Loading....");
+        //    $.get("/Home/GetStudentList", null, DataBind);
+        //    function DataBind(StudentList) {
+        //        var SetData = $("#SetStudentList");
+        //        for (var i = 0; i < StudentList.length; i++) {
+        //            var Data = "<tr class='row_" + StudentList[i].id + "'>" +
+        //                "<td>" + StudentList[i].catalog_id + "</td>" +
+        //                "<td>" + StudentList[i].name + "</td>" +
+        //                "<td>" + StudentList[i].amount + "</td>" +
+        //                "<td>" + StudentList[i].unit + "</td>" +
+        //                "<td>" + StudentList[i].price_buy + "</td>" +
+        //                "<td>" + StudentList[i].price + "</td>" +
+        //                "<td>" + StudentList[i].update_date + "</td>" +                                    
+        //                "<td>" + "<a href='#' class='btn btn-warning' onclick='EditStudentRecord(" + StudentList[i].id + ")' ><span class='glyphicon glyphicon-edit'></span></a>" + "</td>" +
+        //                "<td>" + "<a href='#' class='btn btn-danger' onclick='DeleteStudentRecord(" + StudentList[i].id + ")'><span class='glyphicon glyphicon-trash'></span></a>" + "</td>" +
+        //                "</tr>";
+        //            SetData.append(Data);
+        //            $("#LoadingStatus").html(" ");
+        //        }
+        //    }
+        //}
          @* paging *@
         $('#pagination-demo').twbsPagination({
             totalPages: @Model.ToTalPage,
@@ -715,7 +743,7 @@
             dataType: 'json',
             data: $('#frm').serialize() + '&' + $.param(pr),
             success: function (data) {
-                   $('#lstBody').html(data.view);
+                $('#lstBody').html(data.view);
             },
             error: function (xhr, textStatus, errorThrown) {
                   alert(textStatus);
@@ -760,7 +788,7 @@
             onPageClick: function (event, page) {
             var pr = {
                 'page': page
-            };
+                };
             $.ajax({
             url: '@Url.Action("GetLstSortAmount", "Product")',
             type: 'POST',

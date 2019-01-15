@@ -19,14 +19,15 @@ namespace SalesProcject.Models
         [Display(Name = "Mã loại sản phẩm")]
         public int? catalog_id { get; set; }
         public int? catalog_ids { get; set; }
+        public string Cname { get; set; }
 
         [Display(Name = "Tên sản phẩm")]
         public string name { get; set; }
         public string names { get; set; }
 
         [Display(Name = "Số lượng:")]
-        public long amount { get; set; }
-        public long amounts { get; set; }
+        public long? amount { get; set; }
+        public long? amounts { get; set; }
 
         [Display(Name = "Giá bán:")]
         public double? price { get; set; }
