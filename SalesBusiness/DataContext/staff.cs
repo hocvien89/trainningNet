@@ -32,7 +32,11 @@ namespace SalesBusiness.DataContext
         [StringLength(255)]
         public string adress { get; set; }
 
-        public bool? sex { get; set; }
+        //public bool? Sex { get; set; }
+
+        //[StringLength(200)]
+        //public string sex { get; set; }
+        public int sex { get; set; }
 
         public bool del_flg { get; set; }
 
@@ -44,6 +48,7 @@ namespace SalesBusiness.DataContext
         [StringLength(8)]
         public string update_user { get; set; }
 
-        public DateTime? update_date { get; set; }
+        [StringLength(200)]
+        public string update_date { get; set; }
     }
 }

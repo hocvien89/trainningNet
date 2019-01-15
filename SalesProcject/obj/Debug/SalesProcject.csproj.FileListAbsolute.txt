@@ -48,11 +48,15 @@ C:\Users\Trungdq\trainningNet\SalesProcject\bin\roslyn\vbc.rsp
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\roslyn\VBCSCompiler.exe
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\Antlr3.Runtime.dll
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\EntityFramework.dll
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\EntityFramework.SqlServer.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\Microsoft.AspNet.TelemetryCorrelation.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\Newtonsoft.Json.dll
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\SalesBusiness.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Linq.Dynamic.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.Helpers.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.Mvc.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.Optimization.dll
@@ -61,6 +65,8 @@ C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.WebPages.Deployment.d
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.WebPages.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.WebPages.Razor.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\WebGrease.dll
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\EntityFramework.xml
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\EntityFramework.SqlServer.xml
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.Helpers.xml
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.Mvc.xml
 C:\Users\Trungdq\trainningNet\SalesProcject\bin\System.Web.Optimization.xml
@@ -78,3 +84,5 @@ C:\Users\Trungdq\trainningNet\SalesProcject\obj\Debug\SalesProcject.csproj.CoreC
 C:\Users\Trungdq\trainningNet\SalesProcject\obj\Debug\SalesProcject.csproj.CopyComplete
 C:\Users\Trungdq\trainningNet\SalesProcject\obj\Debug\SalesProcject.dll
 C:\Users\Trungdq\trainningNet\SalesProcject\obj\Debug\SalesProcject.pdb
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\SalesBusiness.pdb
+C:\Users\Trungdq\trainningNet\SalesProcject\bin\SalesBusiness.dll.config

@@ -32,6 +32,10 @@ namespace SalesBusiness.DataContext
         [StringLength(8)]
         public string update_user { get; set; }
 
-        public DateTime? update_date { get; set; }
+        [StringLength(200)]
+        public string update_date { get; set; }
+
+        [StringLength(50)]
+        public string unit { get; set; }
     }
 }

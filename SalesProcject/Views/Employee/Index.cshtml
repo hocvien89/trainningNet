@@ -1,0 +1,1021 @@
+﻿@model SalesProcject.ViewModels.EmployeeVM
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<style type="text/css">
+    body {
+        overflow-x: hidden;
+    }
+
+    .frm-textbox {
+        width: 100%;
+        margin: 2px 0;
+        background-color: aliceblue;
+    }
+
+    .frm-textbox1 {
+        width: 40%;
+        margin: 2px 0;
+        background-color: aliceblue;
+    }
+
+    #lb {
+        background-color: #cc99ff;
+        border: 2px solid #cc99ff;
+        margin-top: 2px;
+        width: 30%;
+        /*float: left !important;*/
+        padding-left: 1px;
+    }
+
+    #modal-dialog {
+        width: 900px;
+    }
+
+    #row {
+        padding-left: 50px;
+    }
+
+    #btn {
+        padding-left: 0px;
+    }
+
+    #cbx {
+        width: 100%;
+        margin: 2px 0;
+        background-color: aliceblue;
+    }
+
+    .alert {
+        background-color: #f44336;
+        color: white;
+    }
+
+    #err {
+        font-size: 11px;
+        font-style: italic;
+        color: red;
+    }
+
+    #btnpopup {
+        text-align: center;
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    #Addthanhcong {
+        text-align: center;
+        font-size: 13px;
+        font-style: italic;
+        color: green;
+        margin-top: 20px;
+    }
+    #Updatethanhcong {
+        text-align: center;
+        font-size: 13px;
+        font-style: italic;
+        color: green;
+        margin-top: 20px;
+    }
+
+
+    #ERRO {
+        text-align: center;
+        font-size: 13px;
+        font-style: italic;
+        color: red;
+        margin-top: 20px;
+    }
+
+    #thongbao3 {
+        text-align: center;
+        font-size: 13px;
+        font-style: italic;
+        color: green;
+        margin-top: 20px;
+    }
+
+    #page {
+        text-align: center;
+    }
+
+    #tb1 {
+        margin-top: 15px;
+    }
+</style>
+
+@using (Html.BeginForm("Index", "Employee", FormMethod.Post, new { id = "frm" }))
+{
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Quản lý nhân viên</h1>
+            <div id="lb" class="col-md-3">Mã nhân viên:</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(p => p.search.user_cd, new { @class = "frm-textbox1", id = "txtID" })
+            </div>
+        </div>
+    </div>
+    <div class="row mt-md-2">
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Tên đăng nhập:</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(p => p.search.user_name, new { @class = "frm-textbox", id = "txtUserName" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Mật khẩu:</div>
+            <div class="col-md-8">
+                @Html.PasswordFor(p => p.search.pass_word, new { @class = "frm-textbox", id = "txtPassword" })
+            </div>
+        </div>
+    </div>
+    <div class="row mt-md-2">
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Tên nhân viên:</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(p => p.search.name, new { @class = "frm-textbox", id = "txtName" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Điện thoại:</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(p => p.search.mobile, new { @class = "frm-textbox", id = "txtPhone" })
+            </div>
+        </div>
+    </div>
+    <div class="row mt-md-2">
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Email:</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(p => p.search.email, new { @class = "frm-textbox", id = "txtEmail" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Địa chỉ:</div>
+            <div class="col-md-8">
+                @Html.TextBoxFor(p => p.search.adress, new { @class = "frm-textbox", id = "txtAdress" })
+            </div>
+        </div>
+    </div>
+    <div class="row mt-md-2">
+        <div class="col-md-6">
+            <div id="lb" class="col-md-3">Giới tính:</div>
+            <div class="col-md-8">
+                @*@Html.DropDownListFor(m => m.search.sex, Model.search.lstCbb, "-- Select--", new { @class = "form-combobox", id = "cbx" })*@
+                @Html.DropDownListFor(m => m.search.sex, Model.search.lstCbb, "--Select--", new { @class = "form-combobox", id = "cbx" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div id="btn" class="col-md-6">
+                @*<input type="button" id="btnAdd" value="Thêm" class="btn-info" />
+                    <input type="button" id="btnBack" value="Back" class="btn-info" />*@
+
+                <input type="button" class="btn-info" onclick="AddNewStudent(0)" value="Add" />
+                <input type="button" id="btnSearch" value="Search" class="btn-info" />
+                <input type="button" id="btnClear" value="Clear" class="btn-info" />
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table id="tb1" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th style="display:none">ID</th>
+                    <th><input id="SortByUserName" type="button" class="btn-link" value="Tên đăng nhập"></th>
+                    <th style="display:none">Mật khẩu</th>
+                    <th><input id="SortByName" type="button" class="btn-link" value="Tên" /></th>
+                    <th class="btn-link">Điện thoại</th>
+                    <th class="btn-link">Email</th>
+                    <th><input id="SortByAdress" type="button" class="btn-link" value="Địa chỉ" /></th>
+                    <th class="btn-link">Giới tính</th>
+                    <th class="btn-link">Ngày cập nhật</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr>
+                <td id="lbldataNull" style="display:none; color:red">Không tìm thấy dữ liệu phù hợp với điều kiện!</td>
+            </tr>
+            <tbody id="tbodyLst">
+                @Html.Partial("_ListView", Model.lst)
+            </tbody>
+        </table>
+    </div>
+
+}
+
+
+
+@*//Popup*@
+@using (Html.BeginForm("Add", "Employee", FormMethod.Post, new { id = "frmAdd", style = "margin-top: 2em;" }))
+{
+    <div class="modal fade" id="MyModal">
+        <div class="modal-dialog" id="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h4 id="ModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <fieldset id="SubmitForm">
+                            <div id="row" class="row">
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.user_cd)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(p => p.search.user_cd, new { @class = "frm-textbox1", id = "user_cdp" })
+                                        @*@Html.ValidationMessageFor(p => p.search.user_cd)*@
+                                        <class id="err"><label id="user_cdperr" style="display: none;">Không được để trống!</label></class>
+                                        <class id="err"><label id="user_cdperr1" style="display: none;">Bắt buộc 8 ký tự!</label></class>
+                                        <class id="err"><label id="user_cdperr2" style="display: none;">Không được nhập ký tự đặc biệt!</label></class>
+                                        <class id="err"><label id="IDTrung" style="display: none;">ID đã tồn tại!</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="row" class="row mt-md-2">
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.user_name)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(p => p.search.user_name, new { @class = "frm-textbox", id = "user_namep" })
+                                        @*@Html.ValidationMessageFor(p => p.search.user_name)*@
+                                        <class id="err">
+                                            <label id="NameTrung" style="display: none;">Tên đăng nhập đã tồn tại!</label>
+                                            <class id="err"><label id="user_nameperr" style="display: none;">Không được để trống!</label></class>
+                                            <class id="err"><label id="user_nameperr1" style="display: none;">Tối thiểu 5 ký tự và tối đa 10 ký tự!</label></class>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.pass_word)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.PasswordFor(p => p.search.pass_word, new { @class = "frm-textbox", id = "pass_wordp" })
+                                        <class id="err"><label id="pass_wordperr" style="display: none">Không được để trống!</label></class>
+                                        <class id="err"><label id="pass_wordperr1" style="display: none">Tối thiểu 8 ký tự và tối đa 15 ký tự!</label></class>
+                                        @*@Html.ValidationMessageFor(p => p.search.pass_word)*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="row" class="row mt-md-2">
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.name)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(p => p.search.name, new { @class = "frm-textbox", id = "namep" })
+                                        @*@Html.ValidationMessageFor(p => p.search.name)*@
+                                        <class id="err"><label id="nameperr" style="display: none;">Không được để trống!</label></class>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.mobile)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(p => p.search.mobile, new { @class = "frm-textbox", id = "mobilep" })
+                                        @*@Html.ValidationMessageFor(p => p.search.mobile)*@
+                                        <class id="err"><label id="mobileperr" style="display: none;">Chỉ được nhập số!</label></class>
+                                        <class id="err"><label id="mobileperr1" style="display: none;">Tối thiểu 10 ký tự và tối đa 15 ký tự!</label></class>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="row" class="row mt-md-2">
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.email)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(p => p.search.email, new { @class = "frm-textbox", id = "emailp" })
+                                        @*@Html.ValidationMessageFor(p => p.search.email)*@
+                                        <class id="err"><label id="emailperr" style="display: none;">Không phải là địa chỉ email!</label></class>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.adress)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.TextBoxFor(p => p.search.adress, new { @class = "frm-textbox", id = "adressp" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="row" class="row mt-md-2">
+                                <div class="col-md-6">
+                                    <div id="lb" class="col-md-3 form_title">
+                                        @Html.DisplayNameFor(p => p.search.sex)
+                                    </div>
+                                    <div class="col-md-8">
+                                        @Html.DropDownListFor(m => m.search.sex, Model.search.lstCbb, "-- Select--", new { @class = "form-combobox", id = "cbxp" })
+                                        @*@Html.DropDownListFor(m => m.search.sexStr, Model.search.lstCbb, "--Select--", new { @class = "form-combobox", id = "cbxp" })*@
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    @*<input type="button" id="btnAdd" value="Thêm" class="btn-info" />
+                                        <input type="button" id="btnUpdate" value="Cập nhật" class="btn-info" />
+                                        <input type="button" id="btnClearAdd" value="Clear" class="btn-info" />
+                                        <input type="button" id="btnClearUpdate" value="Clear" class="btn-info" />
+                                        <input type="button" id="btnCancel" value="Cancel" class="btn-info" />*@
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-md-12"><p id="Addthanhcong" style="display: none;">Thêm mới nhân viên thành công!</p></div>
+                            <div class="col-md-12"><p id="ERRO" style="display: none;">Có lỗi trong quá trình xử lý hãy kiểm tra lại!</p></div>
+                            <div class="col-md-12"><p id="Updatethanhcong" style="display: none;">Cập nhật nhân viên thành công!</p></div>
+
+
+                            <div id="row" class="row mt-md-2">
+                                <div class="col-md-12" id="btnpopup">
+                                    <input type="button" id="btnAdd" value="Save" class="btn-info" />
+                                    <input type="button" id="btnUpdate" value="Save" class="btn-info" />
+                                    <input type="button" id="btnClearAdd" value="Clear" class="btn-info" />
+                                    <input type="button" id="btnClearUpdate" value="Clear" class="btn-info" />
+                                    <input type="button" id="btnCancel" value="Cancel" class="btn-info" />
+                                    @*<input type="button" id="btnCancel" value="Cancel" class="btn-info" onclick="self.close()">*@
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@*<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4" id="page">*@
+<ul id="pagination-demo" class="pagination-sm"></ul>
+<ul id="pagination-sortusername" class="pagination-sm"></ul>
+<ul id="pagination-sortname" class="pagination-sm"></ul>
+<ul id="pagination-sortaddres" class="pagination-sm"></ul>
+@*<ul id="pagination-search" class="pagination-sm" style="display: none"></ul>*@
+@*</div>
+        <div class="col-md-4"></div>
+    </div>*@
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $('#pagination-search').hide();
+
+    $("#Cancel").click(function () {
+        $('#MyModal')[0].this.remove();
+    });
+
+    $(".close").click(function () {
+        $('#user_cdperr').css("display", "none");
+        $('#user_nameperr').css("display", "none");
+        $('#pass_wordperr').css("display", "none");
+        $('#nameperr').css("display", "none");
+        $('#mobileperr').css("display", "none");
+        $('#emailperr').css("display", "none");
+        $("#ERRO").css("display", "none");
+        $("#IDTrung").css("display", "none");
+        $("#NameTrung").css("display", "none");
+        $("#Addthanhcong").css("display", "none");
+        $("#Updatethanhcong").css("display", "none");
+        
+    });
+
+    function resetform() {
+        $("#user_cdp").val("");
+        $("#user_namep").val("");
+        $("#pass_wordp").val("");
+        $("#namep").val("");
+        $("#emailp").val("");
+        $("#adressp").val("");
+        $("#mobilep").val("");
+        $("#cbxp").val("")
+
+        $('#user_namep').prop('readonly', false);
+        $('#user_cdp').prop('readonly', false);
+        $('#pass_wordp').prop('readonly', false);
+    }
+
+    function AddNewStudent(StudentId) {
+        $("#btnAdd").show();
+        $("#btnUpdate").hide();
+        $("#btnClearAdd").show();
+        $("#btnClearUpdate").hide();
+
+        resetform();
+        $("#ModalTitle").html("Thông tin nhân viên");
+        $("#MyModal").modal();
+        }
+
+
+
+    $(document).ready(function () {
+        @* btnAdd(Thêm dữ liệu) *@
+        $("#btnAdd").click(function () {
+            $('#ModalTitle').html('');
+            if (checkValidateAdd() == true) {
+                var data = $("#frmAdd").serialize();
+                $.ajax({
+                    type: "Post",
+                    url: "/Employee/SaveDataInDatabase",
+                    data: data,
+                    success: function (data) {
+                        console.log(data);
+                        if (data == true) {
+                            $("#Addthanhcong").css("display", "block");
+                            $("#NameTrung").css("display", "none");
+                            $("#ERRO").css("display", "none");
+                            $("#IDTrung").css("display", "none");
+                        }
+                        else {
+                            $("#NameTrung").css("display", "block");
+                            $("#ERRO").css("display", "block")
+                            $("#Addthanhcong").css("display", "none");
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        $("#ERRO").css("display", "block");
+                        $("#IDTrung").css("display", "block");
+
+                    }
+                })
+            }
+                $("#pagination-demo").show();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                 $.ajax({
+                    url: '@Url.Action("NoSort", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+        });
+
+
+
+
+        @* btnUpdate(Cập nhật dữ liệu) *@
+        $('#btnUpdate').click(function () {
+            $('#ModalTitle').html('');
+            if (checkValidateUpdate() == true) {
+                var item = $('#frmAdd').serialize();
+                item.search.sex = $('#cbxp').val();
+                console.log(item.search.sex);
+                $.ajax({
+                    url: '@Url.Action("Update", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: item,
+                    success: function (data) {
+                        @*if (data.status) {
+                            var url = '@Url.Action("Index", "Employee")';
+                            location.href = url;
+                            //alert('Cập nhật dữ liệu thành công')
+                            $('#Updatethanhcong').css("display", "block");
+                            $('#Addthanhcong').css("display", "none");
+                        }
+                        else {
+                            $('#ModalTitle').html(data.msg);
+                            alert(data.msg)
+
+                        }
+                        //$('#thongbao3').css("display", "block");*@
+                        $('#Updatethanhcong').css("display", "block");
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        //$('#ModalTitle').html(xhr);
+                        $('#ERRO').css("display", "block");
+                    }
+                });
+            }
+
+                $("#pagination-demo").show();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                 $.ajax({
+                    url: '@Url.Action("NoSort", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+        });
+
+        @*btnSearch(Tìm kiếm)*@
+        $("#btnSearch").click(function () {
+            $('#pagination-demo').hide();
+            $('#pagination-search').show();
+            console.log("kiem tra");
+            $.ajax({
+                url: '@Url.Action("Search", "Employee")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    if (data.status) {
+                        $('#tbodyLst').html(data.view);
+                        $('#lbldataNull').hide();
+                    }
+                    else {
+                        //alert(data.msg)
+                        $('#lbldataNull').show();
+                        $('#tbodyLst').html("");
+
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+            });
+
+           
+            @*console.log("kiem tra 2");
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                 $.ajax({
+                    url: '@Url.Action("NoSort", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });*@
+        });
+
+        @*$('#pagination-sortusername').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("NoSort", "Employee")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#tbodyLst').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });*@
+
+        @* btnSortByUserName *@
+        var click = 0;
+        $("#SortByUserName").click(function () {
+            click++;
+            if (click % 2 != 0) {
+                $("#pagination-demo").hide();
+                $("#pagination-sortusername").show();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                $.ajax({
+                    url: '@Url.Action("GstBySortUserName", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+
+                $('#pagination-sortusername').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("GstBySortUserName", "Employee")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#tbodyLst').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (click % 2 == 0) {
+                click = 0;
+                @*var url = '@Url.Action("Index", "Employee")';
+                location.href = url;*@
+                $("#pagination-demo").show();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                 $.ajax({
+                    url: '@Url.Action("NoSort", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+            }
+        });
+
+        @* btnSortByName *@
+        var click = 0;
+        $("#SortByName").click(function () {
+            click++;
+            if (click % 2 != 0) {
+                $("#pagination-demo").hide();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").show();
+                $.ajax({
+                    url: '@Url.Action("GstBySortName", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+
+                $('#pagination-sortname').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("GstBySortName", "Employee")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#tbodyLst').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (click % 2 == 0) {
+                click = 0;
+                @*var url = '@Url.Action("Index", "Employee")';
+                location.href = url;*@
+                $("#pagination-demo").show();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                 $.ajax({
+                    url: '@Url.Action("NoSort", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+            }
+        });
+
+        @* SortByAdress *@
+        var click = 0;
+        $("#SortByAdress").click(function () {
+            click++;
+            if (click % 2 != 0) {
+                $("#pagination-demo").hide();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").show();
+                $("#pagination-sortname").hide();
+                $.ajax({
+                    url: '@Url.Action("GstBySortAdress", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+
+                $('#pagination-sortaddres').twbsPagination({
+                    totalPages: @Model.ToTalPage,
+                    startPage: 1,
+                    visiblePages: 5,
+                    next: 'Next',
+                    prev: 'Prev',
+                    onPageClick: function (event, page) {
+                        var pr = {
+                            'page': page
+                        };
+                        $.ajax({
+                            url: '@Url.Action("GstBySortAdress", "Employee")',
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $('#frm').serialize() + '&' + $.param(pr),
+                            success: function (data) {
+                                $('#tbodyLst').html(data.view);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert(textStatus);
+                            }
+                        });
+                    }
+                });
+            }
+
+            if (click % 2 == 0) {
+                click = 0;
+                @*var url = '@Url.Action("Index", "Employee")';
+                location.href = url;*@
+                $("#pagination-demo").show();
+                $("#pagination-sortusername").hide();
+                $("#pagination-sortaddres").hide();
+                $("#pagination-sortname").hide();
+                 $.ajax({
+                    url: '@Url.Action("NoSort", "Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize(),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    }
+                });
+            }
+        });
+
+
+
+        @* btnSortByUserName *@
+        @*$("#SortByUserName").click(function () {
+            $("#pagination-demo").hide();
+            $("#pagination-sortusername").show();
+            $("#pagination-sortaddres").hide();
+            $("#pagination-sortname").hide();
+            $.ajax({
+                url: '@Url.Action("GstBySortUserName", "Employee")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    $('#tbodyLst').html(data.view);
+                }
+            });
+            $('#pagination-sortusername').twbsPagination({
+                totalPages: @Model.ToTalPage,
+                startPage: 1,
+                visiblePages: 5,
+                next: 'Next',
+                prev: 'Prev',
+                onPageClick: function (event, page) {
+                    var pr = {
+                        'page': page
+                    };
+                    $.ajax({
+                        url: '@Url.Action("GstBySortUserName", "Employee")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $('#frm').serialize() + '&' + $.param(pr),
+                        success: function (data) {
+                            $('#tbodyLst').html(data.view);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                }
+            });
+        });*@
+
+
+        @*btnSortByName*@
+        @*$("#SortByName").click(function () {
+            $("#pagination-demo").hide();
+            $("#pagination-sortusername").hide();
+            $("#pagination-sortaddres").hide();
+            $("#pagination-sortname").show();
+            $.ajax({
+                url: '@Url.Action("GstBySortName", "Employee")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    $('#tbodyLst').html(data.view);
+                }
+            });
+            $('#pagination-sortname').twbsPagination({
+                totalPages: @Model.ToTalPage,
+                startPage: 1,
+                visiblePages: 5,
+                next: 'Next',
+                prev: 'Prev',
+                onPageClick: function (event, page) {
+                    var pr = {
+                        'page': page
+                    };
+                    $.ajax({
+                        url: '@Url.Action("GstBySortName", "Employee")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $('#frm').serialize() + '&' + $.param(pr),
+                        success: function (data) {
+                            $('#tbodyLst').html(data.view);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                }
+            });
+        });*@
+
+        @*btnSortByAddres*@
+        @*$("#SortByAdress").click(function () {
+            $("#pagination-demo").hide();
+            $("#pagination-sortusername").hide();
+            $("#pagination-sortname").hide();
+            $("#pagination-sortaddres").show();
+            $.ajax({
+                url: '@Url.Action("GstBySortAdress", "Employee")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    $('#tbodyLst').html(data.view);
+                }
+            });
+            $('#pagination-sortaddres').twbsPagination({
+                totalPages: @Model.ToTalPage,
+                startPage: 1,
+                visiblePages: 5,
+                next: 'Next',
+                prev: 'Prev',
+                onPageClick: function (event, page) {
+                    var pr = {
+                        'page': page
+                    };
+                    $.ajax({
+                        url: '@Url.Action("GstBySortAdress", "Employee")',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $('#frm').serialize() + '&' + $.param(pr),
+                        success: function (data) {
+                            $('#tbodyLst').html(data.view);
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                }
+            });
+        });*@
+
+
+
+
+
+        $("#btnClearUpdate").click(function () {
+            //$("#user_cdp").val("");
+            //$("#user_namep").val("");
+            //$("#pass_wordp").val("");
+            $("#namep").val("");
+            $("#mobilep").val("");
+            $("#emailp").val("");
+            $("#adressp").val("");
+            $("#cbxp").val("")
+            //resetform();
+            //$("#ModalTitle").html("Thông tin nhân viên");
+            //$("#MyModal").modal();
+        });
+
+        $("#btnClearAdd").click(function () {
+            $("input[type=text]").val("");
+            $("#pass_wordp").val("");
+            $("#cbxp").val("")
+            $("#Addthanhcong").css("display", "none");
+            $("#ERRO").css("display", "none");
+            $("#IDTrung").css("display", "none");
+            $("#NameTrung").css("display", "none");
+
+            resetform();
+        });
+
+        $("#btnClear").click(function () {
+            $("input[type=text]").val("");
+            $("#txtPassword").val("");
+            $("#cbx").val("")
+        });
+        $("#btnCancel").click(function () {
+            $("#MyModal").modal('hide');
+            $('#user_cdperr').css("display", "none");
+            $('#user_nameperr').css("display", "none");
+            $('#pass_wordperr').css("display", "none");
+            $('#nameperr').css("display", "none");
+            $('#mobileperr').css("display", "none");
+            $('#emailperr').css("display", "none");
+            $("#ERRO").css("display", "none");
+            $("#IDTrung").css("display", "none");
+            $("#NameTrung").css("display", "none");
+            $("#Addthanhcong").css("display", "none");
+            $("#Updatethanhcong").css("display", "none");
+            @*var url = '@Url.Action("Index", "Employee")';
+            location.href = url;*@
+            @*$('#pagination-demo').hide();
+            console.log("kiem tra");
+            $.ajax({
+                url: '@Url.Action("Search", "Employee")',
+                type: 'POST',
+                dataType: 'json',
+                data: $('#frm').serialize(),
+                success: function (data) {
+                    if (data.status) {
+                        $('#tbodyLst').html(data.view);
+                        $('#lbldataNull').hide();
+                        
+                        
+                    }
+                    else {
+                        //alert(data.msg)
+                        $('#lbldataNull').show();
+                        $('#tbodyLst').html("");
+                       
+
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert(textStatus);
+                }
+            });*@
+            
+        });
+
+
+        $('#pagination-demo').twbsPagination({
+            totalPages: @Model.ToTalPage,
+            startPage: @Model.PageNumber,
+            visiblePages: 5,
+            next: 'Next',
+            prev: 'Prev',
+            onPageClick: function (event, page) {
+                var pr = {
+                    'page': page
+                };
+                $.ajax({
+                    url: '@Url.Action("GetLstUser","Employee")',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: $('#frm').serialize() + '&' + $.param(pr),
+                    success: function (data) {
+                        $('#tbodyLst').html(data.view);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            }
+        });
+
+
+    });
+</script>

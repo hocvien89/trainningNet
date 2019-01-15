@@ -1,0 +1,124 @@
+﻿@model List<SalesBusiness.DataContext.staff>
+
+    @foreach (var item in Model)
+    {
+        var strSex = "";
+        if(item.sex == 1)
+        {
+            strSex = "Nam";
+        }
+        else if( item.sex == 2)
+        {
+            strSex = "Nữ";
+        }
+        else
+        {
+            strSex = "Không xác định";
+        }
+<tr>
+    <td style="display:none">@item.user_cd</td>
+    <td>@item.user_name</td>
+    <td style="display:none">@item.pass_word</td>
+    <td>@item.name</td>
+    <td>@item.mobile</td>
+    <td>@item.email</td>
+    <td>@item.adress</td>
+    <td>@strSex</td>
+    @*<td>@(item.sex.HasValue ? (item.sex.Value ? "Nam" : "Nữ") : "Không xác định")</td>*@
+    <td>@item.update_date</td>
+    <td><input type="button" value="Update" class="update" tag="@item.user_cd" /></td>
+    <td><input type="button" value="Delete" class="delete" tag="@item.user_cd" /></td>
+</tr>
+    }
+
+<script type="text/javascript">
+    $(".update").click(function (evt) {
+        $("#btnAdd").hide();
+        $("#btnUpdate").show();
+        $("#btnClearUpdate").show();
+        $("#btnClearAdd").hide();
+        $("#ModalTitle").html("Cập nhật nhân viên");
+        $("#MyModal").modal();
+        //('btnAdd').hide();
+
+        //$(function () {
+            $('#tb1 td').click(function (e) {
+                e.preventDefault();
+                console.log("kiem tra 2");
+                $('#user_cdp').val($(this).closest('tr').find('td:first').text());
+                $('#user_namep').val($(this).closest('tr').find('td:nth-child(2)').text());
+                $('#pass_wordp').val($(this).closest('tr').find('td:nth-child(3)').text());
+                $('#namep').val($(this).closest('tr').find('td:nth-child(4)').text());
+                $('#mobilep').val($(this).closest('tr').find('td:nth-child(5)').text());
+                $('#emailp').val($(this).closest('tr').find('td:nth-child(6)').text());
+                $('#adressp').val($(this).closest('tr').find('td:nth-child(7)').text());
+                var sex = $(this).closest('tr').find('td:nth-child(8)').text();
+                console.log(sex);
+                if (sex == "Nam") {
+                    sex = 1;
+                }
+                else if (sex == "Nữ") {
+                    sex = 2;
+                }
+                else {
+                    sex = 3;
+                }
+                $('#cbxp').val(sex);
+                $('#user_namep').prop('readonly', true);
+                $('#user_cdp').prop('readonly', true);
+                $('#pass_wordp').prop('readonly', false);
+                
+            });
+        });
+    
+    
+    @*$('.delete').click(function (evt) {
+        evt.stopPropagation();
+        if (confirm("Bạn muốn xóa sản phẩm với mã sản phẩm là " + $(this).attr("tag") + " không?"))
+        //var r = confirm("Bạn muốn xóa dữ liệu?");
+            $.ajax({
+            url: '@Url.Action("Delete","Employee")',
+            type: 'POST',
+            dataType: 'json',
+            data: { id: $(this).attr("tag") },
+            success: function (data) {
+                if (data.err)
+                    $('#tbodyLst').html(data.view);
+                else
+                    alert(data.msg);
+            },
+            error: function (xhr, textStatus, erroThrown) {
+                alert(textStatus);
+            }
+        });
+    });*@
+    $(".delete").click(function (evt) {
+        if (confirm('Bạn có muốn xóa dữ liệu nhân viên với mã ID: ' + $(this).attr("tag")+' không ?')) {
+        
+        evt.stopPropagation();
+        $.ajax({
+            url: '@Url.Action("Delete", "Employee")',
+            type: 'POST',
+            dataType: 'json',
+            data: { id: $(this).attr("tag") },
+
+            success: function (data) {
+                if (data.err) {
+                    var url = '@Url.Action("Index", "Employee")';
+                    location.href = url;             
+                    alert("Xóa dữ liệu thành công!");
+                }
+            
+                else
+                    alert(data.msg);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                alert(textStatus);
+            }
+            });
+             }
+
+    });
+</script>
+
+    
